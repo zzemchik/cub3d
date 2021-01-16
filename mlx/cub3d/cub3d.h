@@ -6,6 +6,7 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <math.h>
+#include "mlx.h"
 
 #define ESC							53 
 #define W							13
@@ -113,7 +114,67 @@ are reserved in the protocol for errors and replies. */
 #define Mod4MapIndex        6
 #define Mod5MapIndex        7
 
+int g_error;
+typedef struct	s_list
+{
+	char *line;
+	struct s_list *next;
+
+}				t_list;
+
+typedef struct s_parser 
+{
+	char *n_tex;
+	char *s_tex;
+	char *w_tex;
+	char *e_tex;
+	char *color_floor;
+	char *color_ceil;
+	char *size_screan;
+}				t_parser;
+
+typedef struct	s_cub
+{
+    double		*dist;
+    void		*mlx;
+    void		*mlx_win;
+	int			width;
+	int			height;
+	void		*image;
+	char		**map;
+	char		*data;
+	int			size_line;
+	int			bpp;
+	double		dist_wall;
+	double		cos;
+	double		sin;
+	double		x;
+	double		y;
+	double		direction;
+	double		fov;
+	t_parser	*par;
+	t_list		*lst;
+}				t_cub;
 
 
-
+void		drow_wall(t_cub *cub, double dir, int i);
+double		map_wall(double x, double y, t_cub *cub);
+void		my_mlx_pixel_put(int x, int y, unsigned int color, char *data, int size_line);
+int			color_floor_roof(t_cub *cub);
+size_t		ft_strlen(const char *str);
+double		valid_pi(double dir);
+void		set_all(t_cub *cub);
+int			where_im(int key, t_cub *cub);
+int			drowing_loop(t_cub *cub);
+char		*ft_strjoin(char const *s1, char const *s2);
+char		*ft_strdup(const char *str);
+char		*find_new_line(char *buff);
+int			get_next_line(int fd, char **line);
+void		ft_lstadd_back(t_list **lst, t_list *new);
+int			ft_lstsize(t_list *lst);
+void		what_in_line(char *line, t_cub *cub);
+t_list		*ft_lstnew(char *content);
+t_list		*ft_lstlast(t_list *lst);
+void		all_null(t_cub *cub);
+void		all_free(t_cub *cub);
 #endif
