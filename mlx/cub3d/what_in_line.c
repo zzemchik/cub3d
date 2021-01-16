@@ -6,20 +6,20 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 16:47:17 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/16 16:55:47 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/16 17:02:58 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	skip_spaces(const char *line, int *i)
+static void	skip_spaces(const char *line, int *i)
 {
 	while (line[*i] == ' ')
 		(*i)++;
 	(*i)++;
 }
 
-void	valid_line_map(const char *line)
+static void	valid_line_map(const char *line)
 {
 	int i;
 
@@ -39,7 +39,7 @@ void	valid_line_map(const char *line)
 	}
 }
 
-void	norm_what_in_line(char **str, char *line, int i)
+static void	norm_what_in_line(char **str, char *line, int i)
 {
 	if (*str != 0)
 		g_error = 1;
@@ -47,7 +47,7 @@ void	norm_what_in_line(char **str, char *line, int i)
 	*str = ft_strdup(&line[i]);
 }
 
-void	norm_what_in_line_2(t_cub *cub, char *line)
+static void	norm_what_in_line_2(t_cub *cub, char *line)
 {
 	if (line[0] == 'N' && line[1] == 'O')
 		norm_what_in_line(&cub->par->n_tex, line, 2);
@@ -65,7 +65,7 @@ void	norm_what_in_line_2(t_cub *cub, char *line)
 		norm_what_in_line(&cub->par->size_screan, line, 2);
 }
 
-void	what_in_line(char *line, t_cub *cub)
+void		what_in_line(char *line, t_cub *cub)
 {
 	if (g_error == 0)
 	{

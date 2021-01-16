@@ -177,4 +177,5 @@ t_list		*ft_lstnew(char *content);
 t_list		*ft_lstlast(t_list *lst);
 void		all_null(t_cub *cub);
 void		all_free(t_cub *cub);
+void		valid_map(char **map);
 #endif
