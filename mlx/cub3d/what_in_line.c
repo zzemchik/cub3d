@@ -6,18 +6,11 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 16:47:17 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/16 17:02:58 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/17 20:57:01 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-static void	skip_spaces(const char *line, int *i)
-{
-	while (line[*i] == ' ')
-		(*i)++;
-	(*i)++;
-}
 
 static void	valid_line_map(const char *line)
 {
@@ -43,26 +36,28 @@ static void	norm_what_in_line(char **str, char *line, int i)
 {
 	if (*str != 0)
 		g_error = 1;
-	skip_spaces(&line[i], &i);
+	i = skip_spaces(&line[i], i);
+	if (line[i] == ' ')
+		i++;
 	*str = ft_strdup(&line[i]);
 }
 
 static void	norm_what_in_line_2(t_cub *cub, char *line)
 {
 	if (line[0] == 'N' && line[1] == 'O')
-		norm_what_in_line(&cub->par->n_tex, line, 2);
+		norm_what_in_line(&cub->par->n_tex, line, 1);
 	else if (line[0] == 'S' && line[1] == 'O')
-		norm_what_in_line(&cub->par->s_tex, line, 2);
+		norm_what_in_line(&cub->par->s_tex, line, 1);
 	else if (line[0] == 'W' && line[1] == 'E')
-		norm_what_in_line(&cub->par->w_tex, line, 2);
+		norm_what_in_line(&cub->par->w_tex, line, 1);
 	else if (line[0] == 'E' && line[1] == 'A')
-		norm_what_in_line(&cub->par->e_tex, line, 2);
+		norm_what_in_line(&cub->par->e_tex, line, 1);
 	else if (line[0] == 'F')
-		norm_what_in_line(&cub->par->color_floor, line, 2);
+		norm_what_in_line(&cub->par->color_floor, line, 1);
 	else if (line[0] == 'C')
-		norm_what_in_line(&cub->par->color_ceil, line, 2);
+		norm_what_in_line(&cub->par->color_ceil, line, 1);
 	else if (line[0] == 'R')
-		norm_what_in_line(&cub->par->size_screan, line, 2);
+		norm_what_in_line(&cub->par->size_screan, line, 1);
 }
 
 void		what_in_line(char *line, t_cub *cub)

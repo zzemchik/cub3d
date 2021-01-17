@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 16:57:17 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/16 16:57:53 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/17 16:18:46 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,15 @@ void all_null(t_cub *cub)
 	cub->par->color_ceil = NULL;
 	cub->par->size_screan = NULL;
 	cub->lst = NULL;
+	cub->height = 0;
+	cub->width = 0;
 	cub->size_line = 0;
+	cub->b_ceil = 0;
+	cub->g_ceil = 0;
+	cub->r_ceil = 0;
+	cub->b_floor = 0;
+	cub->r_floor = 0;
+	cub->g_floor = 0;
 }
 
 void all_free(t_cub *cub)

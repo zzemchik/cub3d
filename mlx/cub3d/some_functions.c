@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 16:53:19 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/15 15:22:02 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/17 20:54:23 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,11 @@ char	*ft_strdup(const char *str)
 		return (0);
 	str_cpy[i] = 0;
 	i = 0;
-	while (str[i] != 0)
+	while (*str != 0)
 	{
-		str_cpy[i] = str[i];
+		str_cpy[i] = *str;
 		i++;
+		str++;
 	}
 	return (str_cpy);
 }

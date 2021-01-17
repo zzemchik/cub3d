@@ -152,6 +152,12 @@ typedef struct	s_cub
 	double		y;
 	double		direction;
 	double		fov;
+	int			r_floor;
+	int			g_floor;
+	int			b_floor;
+	int			r_ceil;
+	int			g_ceil;
+	int			b_ceil;
 	t_parser	*par;
 	t_list		*lst;
 }				t_cub;
@@ -178,4 +184,6 @@ t_list		*ft_lstlast(t_list *lst);
 void		all_null(t_cub *cub);
 void		all_free(t_cub *cub);
 void		valid_map(char **map);
+int			ft_atoi_cub(const char *str, int *i);
+int			skip_spaces(const char *line, int i);
 #endif

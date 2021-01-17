@@ -1,4 +1,4 @@
-R 1920 1080
+R 1920              1080
 
 NO ./path_to_the_north_texture.xpm
 SO ./path_to_the_south_texture
@@ -7,8 +7,8 @@ EA ./path_to_the_east_texture
 
 S ./path_to_the_sprite_texture
 
-F 220,100,0
-C 225,30,0
+F 220,100,12
+C 225,30,12
 
      111111111111
      100000000001
