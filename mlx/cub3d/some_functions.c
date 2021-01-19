@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 16:53:19 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/17 20:54:23 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/18 10:42:19 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,10 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	d = a;
 	c = (char *)malloc(a + b + 1);
 	if (c == 0)
+	{
+		g_error = 1;
 		return (0);
+	}
 	c[a + b] = 0;
 	if (s1 != 0)
 		while (a--)
@@ -73,7 +76,10 @@ char	*ft_strdup(const char *str)
 	i = ft_strlen(str);
 	str_cpy = (char *)malloc(i + 1);
 	if (str_cpy == 0)
+	{
+		g_error = 1;
 		return (0);
+	}
 	str_cpy[i] = 0;
 	i = 0;
 	while (*str != 0)

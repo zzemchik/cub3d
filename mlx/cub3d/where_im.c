@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 16:58:04 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/14 17:01:56 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/19 12:58:47 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	norm_where_im(int key, t_cub *cub)
 {
-	if (key == A)
+	if (key == D)
 		if (cub->map[(int)(cub->y + cub->cos)][(int)(cub->x - cub->sin)] != '1')
 		{
 			cub->x -= cub->sin;
@@ -26,7 +26,7 @@ static void	norm_where_im(int key, t_cub *cub)
 			cub->x += cub->cos;
 			cub->y += cub->sin;
 		}
-	if (key == D)
+	if (key == A)
 		if (cub->map[(int)(cub->y - cub->cos)][(int)(cub->x + cub->sin)] != '1')
 		{
 			cub->x += cub->sin;
@@ -46,11 +46,11 @@ int			where_im(int key, t_cub *cub)
 		exit(0);
 	norm_where_im(key, cub);
 	if (key == LEFT)
-		cub->direction += 0.05;
-	if (key == RIGHT)
 		cub->direction -= 0.05;
+	if (key == RIGHT)
+		cub->direction += 0.05;
 	cub->direction = valid_pi(cub->direction);
-	cub->cos = cos(cub->direction) * 0.05;
-	cub->sin = sin(cub->direction) * 0.05;
+	cub->cos = cos(cub->direction) * 0.3;
+	cub->sin = sin(cub->direction) * 0.3;
 	return (0);
 }

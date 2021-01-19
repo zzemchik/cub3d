@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 16:35:13 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/14 17:23:27 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/18 17:49:13 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	drow_wall(t_cub *cub, double dir, int i)
 	double	h_wall;
 
 	j = 0;
-	cub->dist_wall = cub->dist_wall * cos(dir);
+	cub->dist_wall = cub->dist_wall * cos(dir - cub->direction);
 	h_wall = cub->height / 2;
 	h_wall = h_wall / tan((60 / 2) * (M_PI / 180));
 	h_wall = ceil(h_wall / cub->dist_wall);
@@ -31,7 +31,7 @@ void	drow_wall(t_cub *cub, double dir, int i)
 			j = 0;
 		if (j > cub->height)
 			break ;
-		my_mlx_pixel_put(i, j, 0x7000DD, cub->data, cub->size_line);
+		my_mlx_pixel_put(i, j, 0x7000DD, cub);
 		j++;
 	}
 }

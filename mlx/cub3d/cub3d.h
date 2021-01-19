@@ -165,11 +165,10 @@ typedef struct	s_cub
 
 void		drow_wall(t_cub *cub, double dir, int i);
 double		map_wall(double x, double y, t_cub *cub);
-void		my_mlx_pixel_put(int x, int y, unsigned int color, char *data, int size_line);
+void		my_mlx_pixel_put(int x, int y, unsigned int color, t_cub *cub);
 int			color_floor_roof(t_cub *cub);
 size_t		ft_strlen(const char *str);
 double		valid_pi(double dir);
-void		set_all(t_cub *cub);
 int			where_im(int key, t_cub *cub);
 int			drowing_loop(t_cub *cub);
 char		*ft_strjoin(char const *s1, char const *s2);
@@ -181,9 +180,11 @@ int			ft_lstsize(t_list *lst);
 void		what_in_line(char *line, t_cub *cub);
 t_list		*ft_lstnew(char *content);
 t_list		*ft_lstlast(t_list *lst);
-void		all_null(t_cub *cub);
+void		all_set(t_cub *cub);
 void		all_free(t_cub *cub);
 void		valid_map(char **map);
 int			ft_atoi_cub(const char *str, int *i);
 int			skip_spaces(const char *line, int i);
+void		parser(t_cub *cub);
+void	set_all(t_cub *cub);
 #endif

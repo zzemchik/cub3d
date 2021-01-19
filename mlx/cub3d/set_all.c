@@ -6,12 +6,11 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 16:54:58 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/17 14:11:37 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/18 13:14:27 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
 void	set_all(t_cub *cub)
 {
 	int nun;

@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 18:07:08 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/17 20:30:48 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/19 12:56:03 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,16 +124,21 @@ void	parser(t_cub *cub)
 
 	fd = open("map.txt", O_RDONLY);
 	i = 0;
-	while (get_next_line(fd, &line) != 0)
+	while ((i = get_next_line(fd, &line)) != 0 && g_error == 0)
 	{
+		if (i == -1)
+		{
+			g_error = 1;
+			break ;
+		}
 		what_in_line(line, cub);
 		free(line);
 	}
-	what_in_line(line, cub);
-	free(line);
-	close(fd);
 	if (g_error == 0)
 	{
+		what_in_line(line, cub);
+		free(line);
+		close(fd);
 		norm_parser(cub, i);
 		valid_size_screan(cub->par->size_screan);
 		valid_ceil_floor(cub->par->color_ceil);
@@ -141,45 +146,4 @@ void	parser(t_cub *cub)
 		give_size_screan(cub);
 		valid_map(cub->map);
 	}
-}
-
-
-
-int		main ()
-{
-	t_cub *cub;
-	t_list *lst_cpy;
-	int i;
-	
-	g_error = 0;
-	cub = malloc(sizeof(t_cub));
-	cub->par = malloc(sizeof(t_parser));
-	all_null(cub);
-	parser(cub);
-	// printf("%s\n", cub->par->size_screan);
-	// printf("%s\n", cub->par->n_tex);
-	// printf("%s\n", cub->par->w_tex);
-	// printf("%s\n", cub->par->e_tex);
-	// printf("%s\n", cub->par->s_tex);
-	// printf("%s\n", cub->par->color_floor);
-	// printf("%s\n", cub->par->color_ceil);
-	// i = 0;
-	// while (cub->map[i] != 0)
-	// {
-	// 	printf("%s\n", cub->map[i]);
-	// 	i++;
-	// }
-
-	printf("width - %d height - %d\n",cub->width, cub->height);
-	printf("%s\n%s\n", cub->par->color_ceil, cub->par->color_floor);
-	printf("%s\n", cub->par->n_tex);
-	printf("r_floor - %d g_floor - %d b_floor - %d\nr_ceil -  %d g_ceil - %d b_ceil - %d\n",
-	cub->r_floor, cub->g_floor, cub->b_floor, cub->r_ceil, cub->g_ceil, cub->b_ceil);
-	if (g_error != 0)
-	{
-		all_free(cub);
-		printf("Error");
-		exit(0);
-	}
-	all_free(cub);
 }
