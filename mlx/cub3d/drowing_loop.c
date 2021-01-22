@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 17:02:40 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/18 17:42:26 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/22 20:01:23 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,34 @@ int			drowing_loop(t_cub *cub)
                     yy -= a_1;
                 else
                     yy += a_1;
-
                 if (cub->map[(int)floor(yy)][(int)floor(xx - 0.000001)] == '1')
+                {
+                    if (cub->fov < 3 * M_PI / 2 && cub->fov >= M_PI / 2)
+                    {
+                        cub->what_texture = 0;
+                        cub->hit = yy - floor(yy);
+                    }
+                    else
+                    {
+                        cub->what_texture = 1; 
+                        cub->hit = ceil(yy) - yy;
+                    }
                     break;
+                }
                 if (cub->map[(int)floor(yy)][(int)floor(xx + 0.000001)] == '1')
+                {
+                   if (cub->fov < 3 * M_PI / 2 && cub->fov >= M_PI / 2)
+                   {
+                        cub->what_texture = 2; 
+                        cub->hit = yy - floor(yy);
+                   }
+                    else
+                    {
+                        cub->what_texture = 3; 
+                        cub->hit = ceil(yy) - yy;
+                    }
                     break;
+                }    
             }
             else
             {
@@ -87,115 +110,45 @@ int			drowing_loop(t_cub *cub)
                     yy -= dy;
                 else
                     yy += dy;
+                // if (floor(yy - 0.000001) < 0)
+                // {
+                //     yy = 0 + 0.000001;
+                // }
                 if (cub->map[(int)floor(yy - 0.000001)][(int)floor(xx)] == '1')
+                {  
+                    if (cub->fov < M_PI && cub->fov >= 0)
+                    {
+                        cub->what_texture = 0;
+                        cub->hit = ceil(xx) - xx;
+                    }
+                    else
+                    {
+                        cub->what_texture = 1;
+                        cub->hit = xx - floor(xx);
+                    }
                     break;
+                }
                 if (cub->map[(int)floor(yy + 0.000001)][(int)floor(xx)] == '1')
+                {   
+                    if (cub->fov < M_PI && cub->fov >= 0)
+                    {
+                        cub->what_texture = 2;
+                        cub->hit = ceil(xx) - xx;
+                    }
+                    else
+                    {
+                        cub->what_texture = 3;
+                        cub->hit = xx - floor(xx);
+                    }
                     break;
+                }
             }
-        // printf("xx - %f yy - %f fov - %f\n", xx, yy, cub->fov);
         }
 		cub->dist_wall = sqrt(pow(xx - cub->x, 2) + pow(yy - cub->y, 2));
-		drow_wall(cub, cub->fov, i);
-		// printf("{ %f }", cub->fov);
+		drow_wall(cub, xx, yy, i);
 		cub->fov += M_PI / 3 / cub->width;
 	}
 	
 	mlx_put_image_to_window(cub->mlx, cub->mlx_win, cub->image, 0, 0);
 	return (0);
 }
-
-// int drowing_loop(t_cub *cub)
-// {
-// 	int i;
-// 	double dist_wall;
-// 	double dist_wall_y;
-// 	double dist_wall_x;
-// 	double xx;
-// 	double yy;
-// 	double xx1;
-// 	double yy1;
-// 	double dir;
-// 	int q = 0;
-// 	double t;
-// 	color_floor_roof(cub);
-
-// 	while (i < 1199)
-// 	 {
-
-// 		 yy = cub->y;
-// 		 yy1 = cub->y;
-// 		 xx = cub->x;
-// 		 xx1 = cub->x;
-// 		while (1)
-// 		{	
-// 			if (dir >= 0 && dir < M_PI)
-// 			{
-// 				if (yy == cub->y)
-// 				{
-// 					yy = ceil(yy + 0.000001);
-// 					xx =cub->x + fabs(cub->y - yy) / tan((2 * M_PI - dir));				
-// 				}
-// 				else
-// 				{
-// 					yy += 1;
-// 					xx += 1 / tan((2 * M_PI - dir));
-// 				}
-// 			}
-// 			else
-// 			{
-// 				if (yy == cub->y)
-// 				{
-// 					yy = floor(yy - 0.000001);
-// 					xx = cub->x + fabs(cub->y - yy) / tan(2 * M_PI - dir);
-// 				}
-// 				else
-// 				{
-// 					yy -= 1;
-// 					xx += 1 / tan(2 * M_PI - dir);
-// 				}
-// 			}
-// 			if (dir >= M_PI / 2 && dir < 3 * M_PI / 2)
-// 				if (xx1 == cub->x)
-// 				{
-// 					xx1 = floor(xx1 - 0.000001);
-// 					yy1 =cub->y + fabs(cub->x - xx1) * tan(2 * M_PI - dir);
-// 				}
-// 				else
-// 				{
-// 					xx1 -= 1;
-// 					yy1 += tan(2 * M_PI - dir);
-// 				}
-// 			else
-// 				if (xx1 == cub->x)
-// 				{
-// 					xx1 = ceil(xx1 + 0.000001);
-// 					yy1 =cub->y + fabs(cub->x - xx1) * tan(2 * M_PI - dir);
-// 				}
-// 				else
-// 				{
-// 					xx1 += 1;
-// 					yy1 += tan(2 * M_PI - dir);
-// 				}
-// 			if (xx < 0 || yy < 0 || yy > 5 || xx > 5 || cub->map[(int)floor(yy - 0.000001)][(int)floor(xx)] == '1' || cub->map[(int)floor(yy + 0.000001)][(int)floor(xx)] == '1')
-// 				dist_wall_x = sqrt(pow(xx - cub->x, 2) + pow(yy - cub->y, 2));
-// 			if (xx1 < 0 || yy1 < 0 || yy1 > 5 || xx1 > 5 ||cub->map[(int)floor(yy1)][(int)floor(xx1 - 0.000001)] == '1' || cub->map[(int)floor(yy1)][(int)floor(xx1 + 0.000001)] == '1')
-// 				dist_wall_y = sqrt(pow(xx1 - cub->x, 2) + pow(yy1 - cub->y, 2));
-// 			if (dist_wall_x < dist_wall_y)
-// 			{
-// 				dist_wall = dist_wall_x;
-// 				break ;
-// 			}
-// 			if (dist_wall_x > dist_wall_y)
-// 			{
-// 				dist_wall = dist_wall_y;
-// 				break ;
-// 			}
-// 	}
-// 		i++;
-// 		drow_wall(dist_wall, cub, dir, i);
-// 		dir -= M_PI / 6 / cub->width;
-	
-// 	}
-// 		mlx_put_image_to_window(cub->mlx, cub->mlx_win, cub->image, 0, 0);
-// 	return (0);
-// }

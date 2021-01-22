@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 16:57:17 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/18 13:10:52 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/22 18:47:16 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,7 @@ void all_set(t_cub *cub)
 
 	nun = 0;
 	all_null(cub);
-	
 	parser(cub);
-	printf("%d %d \n", cub->width, cub->height);
 	cub->bpp = 32;
 	cub->dist = malloc(sizeof(double) * cub->width);
 	cub->mlx = mlx_init();

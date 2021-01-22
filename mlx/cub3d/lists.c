@@ -6,22 +6,22 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 18:25:57 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/14 19:34:02 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/19 17:33:31 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-void	ft_lstadd_back(t_list **lst, t_list *new)
+void	ft_lstadd_back(t_list **lst, t_list *lst_new)
 {
 	t_list *a;
 	if (*lst == NULL)
 	{	
-		*lst = new;
+		*lst = lst_new;
 	}
 	else
 	{
 		a = ft_lstlast(*lst);
-		(a)->next = new;
+		(a)->next = lst_new;
 		a->next->next = 0;
 	}
 }

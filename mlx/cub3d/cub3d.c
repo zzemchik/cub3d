@@ -6,17 +6,36 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 16:51:00 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/18 15:54:45 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/22 18:51:49 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+int			all_texure(t_cub *cub)
+{
+	int i;
 
-int g_j;
-int g_i;
-
-
+	i = 0;
+	cub->texture_north = mlx_xpm_file_to_image(cub->mlx, cub->par->n_tex,
+	&cub->width_texture, &cub->height_texture);
+	cub->texture_add_north = mlx_get_data_addr(cub->texture_north,
+	&cub->bpp, &cub->size_line_tn, &i);
+	cub->texture_south = mlx_xpm_file_to_image(cub->mlx, cub->par->s_tex,
+	&cub->width_texture_s, &cub->height_texture_s);
+	cub->texture_add_south = mlx_get_data_addr(cub->texture_south,
+	&cub->bpp, &cub->size_line_ts, &i);
+	cub->texture_west = mlx_xpm_file_to_image(cub->mlx, cub->par->w_tex,
+	&cub->width_texture_w, &cub->height_texture_w);
+	cub->texture_add_west = mlx_get_data_addr(cub->texture_west,
+	&cub->bpp, &cub->size_line_tw, &i);
+	cub->texture_east = mlx_xpm_file_to_image(cub->mlx, cub->par->e_tex,
+	&cub->width_texture_e, &cub->height_texture_e);
+	cub->texture_add_east = mlx_get_data_addr(cub->texture_east,
+	&cub->bpp, &cub->size_line_te, &i);
+	return (0);
+	
+}
 
 void            my_mlx_pixel_put(int x, int y, unsigned int color, t_cub *cub)
 {
@@ -35,32 +54,33 @@ int exita()
 int main () 
 {
 	t_cub *cub;
+	cub = malloc(sizeof(t_cub));
+	cub->par = malloc(sizeof(t_parser));
 	int i;
 	int j;
 	g_error = 0;
-	cub = malloc(sizeof(t_cub));
-	cub->par = malloc(sizeof(t_parser));
+	
 	all_set(cub);
+	i = 0;
  	if (g_error != 0)
 	{
 		all_free(cub);
 		printf("Error");
 		exit(0);
 	}
-	g_i = 0;
-	g_j = 0;
-
-	while (g_i == 0 && cub->map[i] != 0)
+	
+	all_texure(cub);
+	while (cub->map[i] != 0)
 	{
 		j = 0;
-		while(cub->map[i][j] && g_i == 0)
+		while(cub->map[i][j])
 		{
 			if (cub->map[i][j] == 'N' || cub->map[i][j] == 'E' ||
 			cub->map[i][j] == 'S' || cub->map[i][j] == 'W')
 			{
 				cub->x = j + 0.5;
 				cub->y = i + 0.5;
-				g_i++;
+
 				if (cub->map[i][j] == 'N')
 					cub->direction = 3 * M_PI / 2;
 				else if (cub->map[i][j] == 'E')
@@ -74,7 +94,6 @@ int main ()
 		}
 		i++;
 	}
-	
  	mlx_hook(cub->mlx_win, 2, 1L << 0, where_im, cub);
 	mlx_hook(cub->mlx_win, 3, 1L << 1, where_im, cub);
     mlx_hook(cub->mlx_win, 17, 1L << 17, exita, 0);
@@ -121,48 +140,3 @@ int main ()
 	// }
 	// 	i++;
 	// }
-
-	// mini cub
-
-// int drowing_loop(t_cub *cub)
-// {
-// 	int i;
-// 	double dist_wall;
-// 	double dist_wall_y;
-// 	double dist_wall_x;
-// 	double xx;
-// 	double yy;
-// 	double xx1;
-// 	double yy1;
-// 	double dir;
-// 	int q = 0;
-// 	double t;
-// 	color_floor_roof(cub);
-// 	dir = M_PI / 6;
-	
-// 	i = -1;
-//  	while (dir > -M_PI / 6)
-// 	 {
-// 		t = 0;
-// 		while (1)
-// 		{
-			
-// 			xx = cub->x + t * cos(cub->direction + dir);
-// 			yy = cub->y + t * sin(cub->direction + dir);
-// 			if ((dist_wall = map_wall(xx, yy, cub)) > 0)
-// 			{
-// 			i++;
-// 			drow_wall(dist_wall, cub, dir, i);
-// 				break;
-// 			}
-// 			if (i > cub->width - 1)
-// 					break;
-// 			t += 0.005;
-// 		}
-// 		dir -= M_PI / 6 / cub->width;
-	
-// 	}
-// 	mlx_put_image_to_window(cub->mlx, cub->mlx_win, cub->image, 0, 0);
-// 	return (0);
-// }
-
