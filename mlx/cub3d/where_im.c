@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 16:58:04 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/19 12:58:47 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/22 20:12:31 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,11 @@ int			where_im(int key, t_cub *cub)
 		exit(0);
 	norm_where_im(key, cub);
 	if (key == LEFT)
-		cub->direction -= 0.05;
+		cub->direction -= 0.08;
 	if (key == RIGHT)
-		cub->direction += 0.05;
+		cub->direction += 0.08;
 	cub->direction = valid_pi(cub->direction);
-	cub->cos = cos(cub->direction) * 0.3;
-	cub->sin = sin(cub->direction) * 0.3;
+	cub->cos = cos(cub->direction) * 0.2;
+	cub->sin = sin(cub->direction) * 0.2;
 	return (0);
 }

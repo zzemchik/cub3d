@@ -6,18 +6,18 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 17:02:40 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/22 20:01:23 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/23 20:26:56 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	norm_drowing_loop(double xx, double yy, t_cub *cub, int *i)
+static void	search_wall_norm(t_cub *cub, int *i)
 {
 
 }
 
-int			drowing_loop(t_cub *cub)
+int			search_wall(t_cub *cub)
 {
 	int		i;
 	double	xx;
@@ -98,7 +98,7 @@ int			drowing_loop(t_cub *cub)
                         cub->hit = ceil(yy) - yy;
                     }
                     break;
-                }    
+                }
             }
             else
             {
@@ -110,10 +110,6 @@ int			drowing_loop(t_cub *cub)
                     yy -= dy;
                 else
                     yy += dy;
-                // if (floor(yy - 0.000001) < 0)
-                // {
-                //     yy = 0 + 0.000001;
-                // }
                 if (cub->map[(int)floor(yy - 0.000001)][(int)floor(xx)] == '1')
                 {  
                     if (cub->fov < M_PI && cub->fov >= 0)
@@ -145,10 +141,12 @@ int			drowing_loop(t_cub *cub)
             }
         }
 		cub->dist_wall = sqrt(pow(xx - cub->x, 2) + pow(yy - cub->y, 2));
-		drow_wall(cub, xx, yy, i);
+		drow_wall(cub, i);
 		cub->fov += M_PI / 3 / cub->width;
 	}
-	
+	// where_sprite(cub, i);
+    // if(cub->dist_sprite != 0)
+    //     drow_sprite(cub, i);
 	mlx_put_image_to_window(cub->mlx, cub->mlx_win, cub->image, 0, 0);
 	return (0);
 }

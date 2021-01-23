@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 17:10:06 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/16 19:18:55 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/23 20:23:06 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,14 @@ int		norm_valid_map_1(char **map, int i, int j)
 	return (k);
 }
 
-int		norm_valid_map(char **map, int i, int j)
+int		norm_valid_map(char **map, int i, int j, t_cub *cub)
 {
 	int k;
 	int m;
+	int g;
 
 	k = 0;
+	g = 0;
 	m = 0;
 	if (map[i][j] == 'N' || map[i][j] == 'S' ||
 	map[i][j] == 'W' || map[i][j] == 'E')
@@ -91,6 +93,12 @@ int		norm_valid_map(char **map, int i, int j)
 	if (map[i][j] == 'N' || map[i][j] == 'S' || map[i][j] == 'W' ||
 	map[i][j] == 'E' || map[i][j] == '2' || map[i][j] == '0')
 	{
+		if (map[i][j] == '2')
+		{
+			cub->sprite_x[g] = j;
+			cub->sprite_y[g] = i;
+			g++;
+		}
 		k += norm_valid_map_1(map, i, j);
 		k += norm_valid_map_2(map, i, j);
 		if (k != 4)
@@ -99,7 +107,7 @@ int		norm_valid_map(char **map, int i, int j)
 	return (m);
 }
 
-void	valid_map(char **map)
+void	valid_map(char **map, t_cub *cub)
 {
 	int i;
 	int j;
@@ -118,7 +126,7 @@ void	valid_map(char **map)
 		{
 			if (g_error != 0)
 				break ;
-			m += norm_valid_map(map, i, j);
+			m += norm_valid_map(map, i, j, cub);
 			j++;
 		}
 		i++;

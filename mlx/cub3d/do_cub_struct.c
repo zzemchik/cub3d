@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 16:57:17 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/22 18:47:16 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/23 20:17:52 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,12 @@ void all_null(t_cub *cub)
 	cub->width = 0;
 	cub->b_ceil = 0;
 	cub->g_ceil = 0;
+	cub->sprite_num = 0;
 	cub->r_ceil = 0;
 	cub->b_floor = 0;
 	cub->r_floor = 0;
 	cub->g_floor = 0;
+	cub->dist_sprite = 0;
 	cub->x = 0;
 	cub->y = 0;
 	cub->direction = 0;
@@ -66,6 +68,9 @@ void all_free(t_cub *cub)
 	free(cub->par->size_screan); 
 	free(cub->par);
 	free(cub->dist);
+	free(cub->sprite_x);
+	free(cub->sprite_y);
+	free(cub->dist_sprite);
 	while (cub->map[i] != 0)
 	{
 		free(cub->map[i]);

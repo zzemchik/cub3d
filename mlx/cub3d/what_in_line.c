@@ -6,19 +6,21 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 16:47:17 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/17 20:57:01 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/23 20:19:09 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	valid_line_map(const char *line)
+static void	valid_line_map(t_cub *cub, const char *line)
 {
 	int i;
 
 	i = 0;
 	while (line[i] != 0)
 	{
+		if(line[i] == '2')
+			cub->sprite_num++;
 		if (line[i] == '1' || line[i] == 'N' ||
 		line[i] == 'S' || line[i] == 'W' ||
 		line[i] == 'E' || line[i] == '2' ||
@@ -30,6 +32,12 @@ static void	valid_line_map(const char *line)
 			break ;
 		}
 	}
+	cub->dist_sprite = malloc(sizeof(double) * (cub->sprite_num + 1));
+	cub->dist_sprite[cub->sprite_num] = 0;
+	cub->sprite_x = malloc(sizeof(int) * cub->sprite_num + 1);
+	cub->sprite_x[cub->sprite_num] = 0;
+	cub->sprite_y = malloc(sizeof(int) * cub->sprite_num + 1);
+	cub->sprite_y[cub->sprite_num] = 0;
 }
 
 static void	norm_what_in_line(char **str, char *line, int i)
@@ -71,7 +79,7 @@ void		what_in_line(char *line, t_cub *cub)
 		cub->par->e_tex != 0 && cub->par->color_floor != 0 &&
 		cub->par->color_ceil != 0)
 		{
-			valid_line_map(line);
+			valid_line_map(cub, line);
 			ft_lstadd_back(&cub->lst, ft_lstnew(ft_strdup(line)));
 		}
 		else

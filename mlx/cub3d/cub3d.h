@@ -145,9 +145,14 @@ typedef struct	s_cub
 	char			**map;
 	char			*data;
 	int				size_line;
+	int				sprite_num;
 	int				bpp;
+	int				*sprite_x;
+	int				*sprite_y;
 	double			hit;
+	double			hit_sprite;
 	double			dist_wall;
+	double			*dist_sprite;
 	double			cos;
 	double			sin;
 	double			x;
@@ -186,14 +191,16 @@ typedef struct	s_cub
 }				t_cub;
 
 
-void		drow_wall(t_cub *cub, double xx, double yy,  int i);
+void		drow_wall(t_cub *cub, int i);
+char*		give_color(t_cub *cub, double kall, double hit);
 double		map_wall(double x, double y, t_cub *cub);
 void		my_mlx_pixel_put(int x, int y, unsigned int color, t_cub *cub);
+void 		drow_sprite(t_cub *cub,int i);
 int			color_floor_roof(t_cub *cub);
 size_t		ft_strlen(const char *str);
 double		valid_pi(double dir);
 int			where_im(int key, t_cub *cub);
-int			drowing_loop(t_cub *cub);
+int			search_wall(t_cub *cub);
 char		*ft_strjoin(char const *s1, char const *s2);
 char		*ft_strdup(const char *str);
 char		*find_new_line(char *buff);
@@ -206,9 +213,13 @@ t_list		*ft_lstnew(char *content);
 t_list		*ft_lstlast(t_list *lst);
 void		all_set(t_cub *cub);
 void		all_free(t_cub *cub);
-void		valid_map(char **map);
+void		valid_map(char **map, t_cub *cub);
 int			ft_atoi_cub(const char *str, int *i);
 int			skip_spaces(const char *line, int i);
 void		parser(t_cub *cub);
-void	set_all(t_cub *cub);
+void		set_all(t_cub *cub);
+void 		where_sprite(t_cub *cub, int i);
+
+
+
 #endif

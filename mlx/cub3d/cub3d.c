@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 16:51:00 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/22 18:51:49 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/23 20:29:20 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,17 @@ int main ()
 		}
 		i++;
 	}
+	int dd = 0;
+	while (cub->sprite_x[dd] != 0)
+	{
+		printf("%d\n", cub->sprite_num);
+		printf("%d\n", cub->sprite_x[dd]);
+		dd++;
+	}
  	mlx_hook(cub->mlx_win, 2, 1L << 0, where_im, cub);
 	mlx_hook(cub->mlx_win, 3, 1L << 1, where_im, cub);
     mlx_hook(cub->mlx_win, 17, 1L << 17, exita, 0);
-	mlx_loop_hook(cub->mlx, drowing_loop, cub);
+	mlx_loop_hook(cub->mlx, search_wall, cub);
     mlx_loop(cub->mlx);
     all_free(cub);
 }

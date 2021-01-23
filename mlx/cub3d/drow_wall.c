@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 16:35:13 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/22 19:56:53 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/23 19:26:58 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char*	give_color(t_cub *cub, double kall, double hit)
 	}
 	return (0);
 }
-void	drow_wall(t_cub *cub, double xx, double yy,  int i)
+void	drow_wall(t_cub *cub, int i)
 {
 	int			j;
 	double		h_wall;
