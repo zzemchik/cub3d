@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 16:57:17 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/23 20:17:52 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/24 14:42:56 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ void all_set(t_cub *cub)
 	cub->mlx = mlx_init();
 	cub->cos = cos(cub->direction) * 0.05;
 	cub->sin = sin(cub->direction) * 0.05;
-	cub->mlx_win = mlx_new_window(cub->mlx, cub->width, cub->height, "Cub3D");
 	cub->image = mlx_new_image(cub->mlx, cub->width, cub->height);
 	cub->data = mlx_get_data_addr(cub->image, &cub->bpp, &cub->size_line, &nun);
+	cub->mlx_win = mlx_new_window(cub->mlx, cub->width, cub->height, "Cub3D");
 }
 
 void all_free(t_cub *cub)

@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 16:35:13 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/23 19:26:58 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/24 16:25:46 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ char*	give_color(t_cub *cub, double kall, double hit)
 void	drow_wall(t_cub *cub, int i)
 {
 	int			j;
+	int f;
 	double		h_wall;
 	unsigned int color;
 	char 		*xpm_data;
@@ -51,8 +52,7 @@ void	drow_wall(t_cub *cub, int i)
 	kall = 0;
 	cub->dist_wall = cub->dist_wall * cos(cub->fov - cub->direction);
 	h_wall = cub->height / 2;
-	h_wall = h_wall / tan((60 / 2) * (M_PI / 180));
-	h_wall = ceil(h_wall / cub->dist_wall);
+	h_wall = ceil((h_wall / tan(M_PI / 6)) / cub->dist_wall);
 	j = (cub->height - h_wall) / 2;
 	max = (cub->height + h_wall) / 2;
  	if (j < 0)
@@ -61,6 +61,9 @@ void	drow_wall(t_cub *cub, int i)
         j = 0;
         max = cub->height;
     }
+	f = j + 1;
+	while (--f > -1)
+		my_mlx_pixel_put(i, f, 0x56C5FF, cub);
 	while (j < max)
 	{
 		color = *(unsigned int*)give_color(cub,  kall, hit);
@@ -68,6 +71,9 @@ void	drow_wall(t_cub *cub, int i)
 		j++;
 		kall += (double)cub->height_texture / (double)h_wall;
 	}
+	j--;
+	while (j++ < cub->height)
+		my_mlx_pixel_put(i, j, 0x252525, cub);
 }
 
 double	map_wall(double x, double y, t_cub *cub)

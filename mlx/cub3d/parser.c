@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 18:07:08 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/23 20:23:23 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/24 14:56:33 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,6 @@ void	parser(t_cub *cub)
 		valid_ceil_floor(cub->par->color_ceil);
 		valid_ceil_floor(cub->par->color_floor);
 		give_size_screan(cub);
-		valid_map(cub->map, cub);
+		valid_map(cub);
 	}
 }

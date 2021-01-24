@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   drowing_loop.c                                     :+:      :+:    :+:   */
+/*   search_wall.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 17:02:40 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/23 20:26:56 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/24 20:50:19 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ static void	search_wall_norm(t_cub *cub, int *i)
 
 int			search_wall(t_cub *cub)
 {
+    
 	int		i;
+    int	    u;
 	double	xx;
 	double	yy;
 	double	dx;
@@ -28,9 +30,11 @@ int			search_wall(t_cub *cub)
 	double	a_1;
 	double	a_gip;
 	double	b_gip;
+    u = 0;
 
-	color_floor_roof(cub);
-	 cub->fov = cub->direction - M_PI / 6;
+//    clock_t begin = clock();
+
+	cub->fov = cub->direction - M_PI / 6;
     
     i = -1;
     while (++i < cub->width)
@@ -99,6 +103,36 @@ int			search_wall(t_cub *cub)
                     }
                     break;
                 }
+                if (cub->map[(int)floor(yy)][(int)floor(xx - 0.000001)] == '2')
+                { 
+                    if (u == 0)
+                    {
+                        cub->sprite_x[u] =  (int)floor(xx - 0.000001);
+                        cub->sprite_y[u] = (int)floor(yy);
+                        u++;
+                    }
+                    else if (!(cub->sprite_x[u - 1] == (int)floor(xx - 0.000001) && cub->sprite_y[u - 1] == (int)floor(yy)))
+                    {   
+                        cub->sprite_x[u] =  (int)floor(xx - 0.000001);
+                        cub->sprite_y[u] = (int)floor(yy);
+                        u++;
+                    }
+                }
+                if (cub->map[(int)floor(yy)][(int)floor(xx + 0.000001)] == '2')
+                {
+                    if (u == 0)
+                    {
+                        cub->sprite_x[u] = (int)floor(xx + 0.000001);
+                        cub->sprite_y[u] = (int)floor(yy);
+                        u++;
+                    }
+                    else if (!(cub->sprite_x[u - 1] == (int)floor(xx + 0.000001) && cub->sprite_y[u - 1] == (int)floor(yy)))
+                    {   
+                        cub->sprite_x[u] = (int)floor(xx + 0.000001);
+                        cub->sprite_y[u] = (int)floor(yy);
+                        u++;
+                    }
+                }
             }
             else
             {
@@ -138,15 +172,49 @@ int			search_wall(t_cub *cub)
                     }
                     break;
                 }
+                 if (cub->map[(int)floor(yy - 0.000001)][(int)floor(xx)] == '2')
+                {  
+                    if (u == 0)
+                    {
+                        cub->sprite_x[u] =  (int)floor(xx);
+                        cub->sprite_y[u] = (int)floor(yy - 0.000001);
+                        u++;
+                    }
+                    else if (!(cub->sprite_x[u - 1] == (int)floor(xx) && cub->sprite_y[u - 1] == (int)floor(yy  - 0.000001)))
+                    {   
+                        cub->sprite_x[u] =  (int)floor(xx);
+                        cub->sprite_y[u] = (int)floor(yy - 0.000001);
+                        u++;
+                    }
+                }
+                if (cub->map[(int)floor(yy + 0.000001)][(int)floor(xx)] == '2')
+                {   
+                    if (u == 0)
+                    {
+                        cub->sprite_x[u] =  (int)floor(xx);
+                        cub->sprite_y[u] = (int)floor(yy + 0.000001);
+                        u++;
+                    }
+                    else if (!(cub->sprite_x[u - 1] == (int)floor(xx) && cub->sprite_y[u - 1] == (int)floor(yy  + 0.000001)))
+                    {   
+                        cub->sprite_x[u] =  (int)floor(xx);
+                        cub->sprite_y[u] = (int)floor(yy + 0.000001);
+                        u++;
+                    }
+                }
             }
         }
 		cub->dist_wall = sqrt(pow(xx - cub->x, 2) + pow(yy - cub->y, 2));
 		drow_wall(cub, i);
 		cub->fov += M_PI / 3 / cub->width;
 	}
+    //    clock_t end = clock();
+    //    printf("%f\n", (double)(end - begin) / CLOCKS_PER_SEC);
 	// where_sprite(cub, i);
     // if(cub->dist_sprite != 0)
-    //     drow_sprite(cub, i);
+    drow_sprite(cub, u);
 	mlx_put_image_to_window(cub->mlx, cub->mlx_win, cub->image, 0, 0);
+  
+	
 	return (0);
 }

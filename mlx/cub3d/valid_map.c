@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   valid_map.c                                        :+:      :+:    :+:   */
+/*   valid_cub->map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 17:10:06 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/23 20:23:06 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/24 14:54:22 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int		norm_valid_map_2(char **map, int i, int j)
+int		norm_valid_map_2(t_cub *cub, int i, int j)
 {
 	int k;
 	int n;
@@ -21,27 +21,27 @@ int		norm_valid_map_2(char **map, int i, int j)
 	n = j;
 	while (n != -1)
 	{
-		if (map[i][n] == '0' && n != 0 && map[i][n - 1] == ' ')
+		if (cub->map[i][n] == '0' && n != 0 && cub->map[i][n - 1] == ' ')
 			break ;
-		else if ((n == 0 || map[i][n - 1] == ' ') &&
-		map[i][n] == '1' && (k = k + 1))
+		else if ((n == 0 || cub->map[i][n - 1] == ' ') &&
+		cub->map[i][n] == '1' && (k = k + 1))
 			break ;
 		n--;
 	}
 	n = j;
-	while (map[i][n] != 0)
+	while (cub->map[i][n] != 0)
 	{
-		if (map[i][n] == '0' && map[i][n + 1] == ' ')
+		if (cub->map[i][n] == '0' && cub->map[i][n + 1] == ' ')
 			break ;
-		else if ((map[i][n + 1] == 0 || map[i][n + 1] == ' ') &&
-		map[i][n] == '1' && (k = k + 1))
+		else if ((cub->map[i][n + 1] == 0 || cub->map[i][n + 1] == ' ') &&
+		cub->map[i][n] == '1' && (k = k + 1))
 			break ;
 		n++;
 	}
 	return (k);
 }
 
-int		norm_valid_map_1(char **map, int i, int j)
+int		norm_valid_map_1(t_cub *cub, int i, int j)
 {
 	int k;
 	int n;
@@ -50,37 +50,36 @@ int		norm_valid_map_1(char **map, int i, int j)
 	n = i;
 	while (n != -1)
 	{
-		if (map[n][j] == '0' && n != 0 && map[n - 1][j] == ' ')
+		if (cub->map[n][j] == '0' && n != 0 && cub->map[n - 1][j] == ' ')
 			break ;
-		else if ((n == 0 || map[n - 1][j] == ' ') &&
-		map[n][j] == '1' && (k = k + 1))
+		else if ((n == 0 || cub->map[n - 1][j] == ' ') &&
+		cub->map[n][j] == '1' && (k = k + 1))
 			break ;
 		n--;
 	}
 	n = i;
-	while (map[n] != NULL)
+	while (cub->map[n] != NULL)
 	{
-		if (map[n][j] == '0' && map[n + 1] != 0 && map[n + 1][j] == ' ')
+		if (cub->map[n][j] == '0' && cub->map[n + 1] != 0 && cub->map[n + 1][j] == ' ')
 			break ;
-		else if ((map[n + 1] == 0 || map[n + 1][j] == ' ') &&
-		map[n][j] == '1' && (k = k + 1))
+		else if ((cub->map[n + 1] == 0 || cub->map[n + 1][j] == ' ') &&
+		cub->map[n][j] == '1' && (k = k + 1))
 			break ;
 		n++;
 	}
 	return (k);
 }
 
-int		norm_valid_map(char **map, int i, int j, t_cub *cub)
+int		norm_valid_map(int i, int j, int *g, t_cub *cub)
 {
 	int k;
 	int m;
-	int g;
 
 	k = 0;
-	g = 0;
 	m = 0;
-	if (map[i][j] == 'N' || map[i][j] == 'S' ||
-	map[i][j] == 'W' || map[i][j] == 'E')
+	
+	if (cub->map[i][j] == 'N' || cub->map[i][j] == 'S' ||
+	cub->map[i][j] == 'W' || cub->map[i][j] == 'E')
 	{
 		
 		if (m == 0)
@@ -90,47 +89,50 @@ int		norm_valid_map(char **map, int i, int j, t_cub *cub)
 			g_error = 1;
 		}
 	}
-	if (map[i][j] == 'N' || map[i][j] == 'S' || map[i][j] == 'W' ||
-	map[i][j] == 'E' || map[i][j] == '2' || map[i][j] == '0')
+	if (cub->map[i][j] == 'N' || cub->map[i][j] == 'S' || cub->map[i][j] == 'W' ||
+	cub->map[i][j] == 'E' || cub->map[i][j] == '2' || cub->map[i][j] == '0')
 	{
-		if (map[i][j] == '2')
-		{
-			cub->sprite_x[g] = j;
-			cub->sprite_y[g] = i;
-			g++;
-		}
-		k += norm_valid_map_1(map, i, j);
-		k += norm_valid_map_2(map, i, j);
+		// if (cub->map[i][j] == '2')
+		// {
+		// 	cub->sprite_x[*g] = j + 0.5;
+		// 	cub->sprite_y[*g] = i + 0.5;
+		// 	(*g)++;
+		// }
+		k += norm_valid_map_1(cub, i, j);
+		k += norm_valid_map_2(cub, i, j);
 		if (k != 4)
 			g_error = 1;
 	}
 	return (m);
 }
 
-void	valid_map(char **map, t_cub *cub)
+void	valid_map(t_cub *cub)
 {
 	int i;
 	int j;
 	int k;
-	int n;
+	int g;
 	int m;
 
 	i = 0;
 	m = 0;
-	while (map[i] != NULL)
-	{
-		j = 0;
-		if (g_error != 0)
-			break ;
-		while (map[i][j] != 0)
+	g = 0;
+	cub->dist_sprite = malloc(sizeof(double) * (cub->sprite_num + 1));
+	cub->dist_sprite[cub->sprite_num] = 0;
+	cub->sprite_x = malloc(sizeof(int) * cub->sprite_num + 1);
+	cub->sprite_x[cub->sprite_num] = 0;
+	cub->sprite_y = malloc(sizeof(int) * cub->sprite_num + 1);
+	cub->sprite_y[cub->sprite_num] = 0;
+	cub->sprite_dir = malloc(sizeof(double) * cub->sprite_num + 1);
+	cub->sprite_dir[cub->sprite_num] = 0;
+
+	while (cub->map[++i] != NULL && (j = -1))
+		while (cub->map[i][++j] != 0)
 		{
 			if (g_error != 0)
 				break ;
-			m += norm_valid_map(map, i, j, cub);
-			j++;
+			m += norm_valid_map(i, j, &g, cub);
 		}
-		i++;
-	}
 	if (m == 0)
 		g_error = 1;
 }

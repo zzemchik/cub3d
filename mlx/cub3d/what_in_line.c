@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 16:47:17 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/23 20:19:09 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/24 14:28:01 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,6 @@ static void	valid_line_map(t_cub *cub, const char *line)
 			break ;
 		}
 	}
-	cub->dist_sprite = malloc(sizeof(double) * (cub->sprite_num + 1));
-	cub->dist_sprite[cub->sprite_num] = 0;
-	cub->sprite_x = malloc(sizeof(int) * cub->sprite_num + 1);
-	cub->sprite_x[cub->sprite_num] = 0;
-	cub->sprite_y = malloc(sizeof(int) * cub->sprite_num + 1);
-	cub->sprite_y[cub->sprite_num] = 0;
 }
 
 static void	norm_what_in_line(char **str, char *line, int i)

@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 16:51:00 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/23 20:29:20 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/24 18:25:38 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,13 @@ int exita()
 
 int main () 
 {
+
 	t_cub *cub;
 	cub = malloc(sizeof(t_cub));
 	cub->par = malloc(sizeof(t_parser));
 	int i;
 	int j;
 	g_error = 0;
-	
 	all_set(cub);
 	i = 0;
  	if (g_error != 0)
@@ -94,19 +94,15 @@ int main ()
 		}
 		i++;
 	}
-	int dd = 0;
-	while (cub->sprite_x[dd] != 0)
-	{
-		printf("%d\n", cub->sprite_num);
-		printf("%d\n", cub->sprite_x[dd]);
-		dd++;
-	}
  	mlx_hook(cub->mlx_win, 2, 1L << 0, where_im, cub);
 	mlx_hook(cub->mlx_win, 3, 1L << 1, where_im, cub);
     mlx_hook(cub->mlx_win, 17, 1L << 17, exita, 0);
 	mlx_loop_hook(cub->mlx, search_wall, cub);
     mlx_loop(cub->mlx);
+	
     all_free(cub);
+
+	return (0);
 }
 	//mini_map
 
