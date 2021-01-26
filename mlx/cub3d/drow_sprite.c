@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 16:03:05 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/24 21:09:17 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/26 19:14:45 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,202 +52,129 @@
 // 		n--;
 // 	}
 // }
-void	drow_wall_sprite(t_cub *cub, int i)
+// void	drow_wall_sprite(t_cub *cub, int i)
+// {
+// 	int			j;
+// 	int f;
+// 	double		h_wall;
+// 	unsigned int color;
+// 	char 		*xpm_data;
+// 	double	kall;
+// 	double max;
+// 	double hit;
+
+// 	hit = cub->hit * cub->width_texture;
+// 	j = 0;
+// 	kall = 0;
+// 	cub->dist_sprite_q = cub->dist_sprite_q * cos(cub->fov - cub->direction);
+// 	h_wall = cub->height / 4;
+// 	j = (cub->height - h_wall) / 2;
+// 	max = (cub->height + h_wall) / 2;
+//  	if (j < 0)
+//     {
+//         kall = (double)cub->height_texture / (double)h_wall * (-j);
+//         j = 0;
+//         max = cub->height;
+//     }
+// 	while (j < max)
+// 	{
+// 		my_mlx_pixel_put(i, j, 0x000000, cub);
+// 		j++;
+// 		kall += (double)cub->height_texture / (double)h_wall;
+// 	}
+
+// }
+
+void	sort_dist_sprite(t_cub *cub, int k)
 {
-	int			j;
-	int f;
-	double		h_wall;
-	unsigned int color;
-	char 		*xpm_data;
-	double	kall;
-	double max;
-	double hit;
-
-	hit = cub->hit * cub->width_texture;
+	int i;
+	int j;
+	double h;
+	int l;
 	j = 0;
-	kall = 0;
-	cub->dist_sprite_q = cub->dist_sprite_q * cos(cub->fov - cub->direction);
-	h_wall = cub->height / 4;
-	j = (cub->height - h_wall) / 2;
-	max = (cub->height + h_wall) / 2;
- 	if (j < 0)
-    {
-        kall = (double)cub->height_texture / (double)h_wall * (-j);
-        j = 0;
-        max = cub->height;
-    }
-	while (j < max)
+	i = 0;
+	while (i < k)
 	{
-		my_mlx_pixel_put(i, j, 0x000000, cub);
+		h = cub->dist_sprite[i];
+		j = i + 1;
+		while (j < k)
+		{
+			if (h > cub->dist_sprite[j])
+			{
+				h = cub->dist_sprite[j];
+				l = j;
+			}
 		j++;
-		kall += (double)cub->height_texture / (double)h_wall;
+		}
+		if (h != cub->dist_sprite[i])
+		{
+			cub->dist_sprite[l] = cub->dist_sprite[i];
+			cub->dist_sprite[i] = h;
+            h = cub->sprite_x[i];
+            cub->sprite_x[i] = cub->sprite_x[l];
+            cub->sprite_x[l] = h;
+            h = cub->sprite_y[i];
+            cub->sprite_y[i] = cub->sprite_y[l];
+            cub->sprite_y[l] = h;
+		}
+		i++;
 	}
-
 }
 
-int			drow_sprite(t_cub *cub, int u)
+void			drow_sprite(t_cub *cub, int k, int i)
 {
-    
-	int		i;
-
-	double	xx;
-	double	yy;
-	double	dx;
-	double	dy;
-	double	b_1;
-	double	a_1;
-	double	a_gip;
-	double	b_gip;
+    int u;
+    double w_sprite;
+    double dir_sprite;
+    int point_sprite;
+    int size;
     u = 0;
-
-//    clock_t begin = clock();
-
-	cub->fov = cub->direction - M_PI / 6;
-    
-    i = -1;
-    while (++i < cub->width)
+    while (u < k)
     {
-        cub->fov = valid_pi(cub->fov);
-            xx = cub->x;
-            yy = cub->y;
-        while (1)
-        {
-            if (cub->fov < 2 * M_PI && cub->fov > M_PI)
-                dy = yy - floor(yy - 0.000001);
-            else
-                dy = ceil(yy + 0.000001) - yy;
-            if (cub->fov < 3 * M_PI / 2 && cub->fov > M_PI / 2)
-                dx = xx - floor(xx - 0.000001);
-            else
-                dx = ceil(xx + 0.000001) - xx;
-            if ((cub->fov > 0 && cub->fov < M_PI / 2) || (cub->fov > M_PI && cub->fov < 3 * M_PI / 2))
-            {
-                a_1 = tan(fmod(cub->fov, M_PI / 2)) * dx;
-                b_1 = tan(M_PI / 2 - fmod(cub->fov, M_PI / 2)) * dy;
-            }
-            else
-            {
-                b_1 = tan(fmod(cub->fov, M_PI / 2)) * dy;
-                a_1 = tan(M_PI / 2 - fmod(cub->fov, M_PI / 2)) * dx;
-            }
-
-            b_gip = sqrt(pow(b_1, 2) + pow(dy, 2));
-            a_gip = sqrt(pow(a_1, 2) + pow(dx, 2));
-            if (b_gip > a_gip)
-            {
-                if (cub->fov < 3 * M_PI / 2 && cub->fov > M_PI / 2)
-                    xx -= dx;
-                else
-                    xx += dx;
-                if (cub->fov < 2 * M_PI && cub->fov > M_PI)
-                    yy -= a_1;
-                else
-                    yy += a_1;
-				if (cub->map[(int)floor(yy)][(int)floor(xx - 0.000001)] == '1')
-                {
-					u = 0;
-					break ;
-				}
-                if (cub->map[(int)floor(yy)][(int)floor(xx - 0.000001)] == '2')
-                {
-                    if (cub->fov < 3 * M_PI / 2 && cub->fov >= M_PI / 2)
-                    {
-                        cub->what_texture = 0;
-                        cub->hit = yy - floor(yy);
-                    }
-                    else
-                    {
-                        cub->what_texture = 1; 
-                        cub->hit = ceil(yy) - yy;
-                    }
-					u = 1;
-                    break;
-                }
-				if (cub->map[(int)floor(yy)][(int)floor(xx + 0.000001)] == '1')
-                {
-					u = 0;
-					break ;
-				}
-                if (cub->map[(int)floor(yy)][(int)floor(xx + 0.000001)] == '2')
-                {
-                   if (cub->fov < 3 * M_PI / 2 && cub->fov >= M_PI / 2)
-                   {
-                        cub->what_texture = 2; 
-                        cub->hit = yy - floor(yy);
-                   }
-                    else
-                    {
-                        cub->what_texture = 3; 
-                        cub->hit = ceil(yy) - yy;
-                    }
-					u = 1;
-                    break;
-                }
-            }
-            else
-            {
-                if (cub->fov < 3 * M_PI / 2 && cub->fov > M_PI / 2)
-                    xx -= b_1;
-                else
-                    xx += b_1;
-                if (cub->fov < 2 * M_PI && cub->fov > M_PI)
-                    yy -= dy;
-                else
-                    yy += dy;
-				if (cub->map[(int)floor(yy - 0.000001)][(int)floor(xx)] == '1')
-                {
-				  	u = 0;
-					break ;
-				}
-                if (cub->map[(int)floor(yy - 0.000001)][(int)floor(xx)] == '2')
-                {  
-                    if (cub->fov < M_PI && cub->fov >= 0)
-                    {
-                        cub->what_texture = 0;
-                        cub->hit = ceil(xx) - xx;
-                    }
-                    else
-                    {
-                        cub->what_texture = 1;
-                        cub->hit = xx - floor(xx);
-                    }
-					u = 1;
-                    break;
-                }
-				if (cub->map[(int)floor(yy + 0.000001)][(int)floor(xx)] == '1')
-                {
-					u = 0;
-					break ;
-				}
-                if (cub->map[(int)floor(yy + 0.000001)][(int)floor(xx)] == '2')
-                {   
-                    if (cub->fov < M_PI && cub->fov >= 0)
-                    {
-                        cub->what_texture = 2;
-                        cub->hit = ceil(xx) - xx;
-                    }
-                    else
-                    {
-                        cub->what_texture = 3;
-                        cub->hit = xx - floor(xx);
-                    }
-					u = 1;
-                    break;
-				}
-            }
-        }
-		cub->dist_sprite_q = sqrt(pow(xx - cub->x, 2) + pow(yy - cub->y, 2));
-		if (u == 1)
-			drow_wall_sprite(cub, i);
-		cub->fov += M_PI / 3 / cub->width;
-	}
+        cub->dist_sprite[u] = sqrt(pow(cub->x - 0.5 - cub->sprite_x[u], 2) + pow(cub->y - 0.5 - cub->sprite_y[u], 2));
+        u++;
+    }
+    sort_dist_sprite(cub, k);
+    u = 0;
+    while (k--)
+    {
+        w_sprite = (double)(cub->width / 2) / tan(M_PI / 6);
+        dir_sprite = atan2(cub->sprite_y[k] - cub->y + 0.5, cub->sprite_x[k] - cub->x + 0.5) - cub->direction;
+        size = w_sprite / (cos(dir_sprite) * cub->dist_sprite[k]);
+        point_sprite = cub->width / 2 + tan(dir_sprite) * w_sprite - size / 2;
+        if (size <= 0 || point_sprite >= cub->width || i < point_sprite || i >= point_sprite + size)
+            continue ;
+        if (cub->dist_sprite[k] <= cub->dist_wall)
+            d(cub, i, size, point_sprite);
+        // printf("%f\n", cub->dist_sprite[k]);
+    }
+    
     //    clock_t end = clock();
     //    printf("%f\n", (double)(end - begin) / CLOCKS_PER_SEC);
 	// where_sprite(cub, i);
     // if(cub->dist_sprite != 0)
     // drow_sprite(cub, u);
-	mlx_put_image_to_window(cub->mlx, cub->mlx_win, cub->image, 0, 0);
-  
-	
-	return (0);
+	// mlx_put_image_to_window(cub->mlx, cub->mlx_win, cub->image, 0, 0);
 }
+
+// void        d_s(t_all *cub, t_sprite sprite, float x1, float y1)
+// {
+//     t_sprite ang;
+//     t_sprite dist;
+//     int     tx;
+//     int     size;
+//     ang.x = cub->plr.route + 0.25f;
+//     if (ang.x > 1.0f)
+//         ang.x -= 1.0f;
+//     ang.x *= (2 * M_PI);
+//     dist.y = (float)(cub->scene.screen_width / 2) / tan((60.0f * M_PI / 180.0f) / 2);
+//     sprite.distance = sqrtf(powf(cub->plr.x0 - (sprite.x + 0.5f), 2) + powf(cub->plr.y0 - (sprite.y + 0.5f), 2));
+//     ang.y = atan2(cub->plr.y0 - (sprite.y + 0.5f), cub->plr.x0 - (sprite.x + 0.5f)) - ang.x; // абсолютное направление от игрока до спрайта
+//     size = dist.y / (cosf(ang.y) * sprite.distance);                                        // ширина и высота спрайта (квадратный)
+//     tx = cub->scene.screen_width / 2 + tan(ang.y) * dist.y - size / 2;                      // точка пересечения луча со спрайтом
+//     if (size <= 0 || tx < -size || tx >= cub->scene.screen_width \
+//     || cub->x < tx || cub->x > tx + size)
+//         return ;
+//     if (sprite.distance <= sqrtf(powf(x1 - cub->plr.x0, 2) + powf(y1 - cub->plr.y0, 2)))
+//         draw_sprite(cub, ((cub->x - tx) / (float)size), size);
+// }

@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 17:02:40 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/24 20:50:19 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/25 18:48:35 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int			search_wall(t_cub *cub)
 	double	b_gip;
     u = 0;
 
-//    clock_t begin = clock();
+
 
 	cub->fov = cub->direction - M_PI / 6;
     
@@ -118,7 +118,7 @@ int			search_wall(t_cub *cub)
                         u++;
                     }
                 }
-                if (cub->map[(int)floor(yy)][(int)floor(xx + 0.000001)] == '2')
+                else if (cub->map[(int)floor(yy)][(int)floor(xx + 0.000001)] == '2')
                 {
                     if (u == 0)
                     {
@@ -172,7 +172,7 @@ int			search_wall(t_cub *cub)
                     }
                     break;
                 }
-                 if (cub->map[(int)floor(yy - 0.000001)][(int)floor(xx)] == '2')
+                if (cub->map[(int)floor(yy - 0.000001)][(int)floor(xx)] == '2')
                 {  
                     if (u == 0)
                     {
@@ -187,7 +187,7 @@ int			search_wall(t_cub *cub)
                         u++;
                     }
                 }
-                if (cub->map[(int)floor(yy + 0.000001)][(int)floor(xx)] == '2')
+                else if (cub->map[(int)floor(yy + 0.000001)][(int)floor(xx)] == '2')
                 {   
                     if (u == 0)
                     {
@@ -206,13 +206,24 @@ int			search_wall(t_cub *cub)
         }
 		cub->dist_wall = sqrt(pow(xx - cub->x, 2) + pow(yy - cub->y, 2));
 		drow_wall(cub, i);
+        // printf("%d\n", u);
+        if (u != 0)
+            drow_sprite(cub, u, i);
+        while (u > 0)
+        {
+            u--;
+            // printf("{%d %d}\n", cub->sprite_x[u], cub->sprite_y[u]);
+            cub->sprite_x[u] = 0;
+            cub->sprite_y[u] = 0;
+           
+        }
 		cub->fov += M_PI / 3 / cub->width;
 	}
     //    clock_t end = clock();
     //    printf("%f\n", (double)(end - begin) / CLOCKS_PER_SEC);
 	// where_sprite(cub, i);
     // if(cub->dist_sprite != 0)
-    drow_sprite(cub, u);
+    
 	mlx_put_image_to_window(cub->mlx, cub->mlx_win, cub->image, 0, 0);
   
 	

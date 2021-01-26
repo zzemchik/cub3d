@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 16:57:17 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/24 14:42:56 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/26 19:36:29 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void all_null(t_cub *cub)
 	cub->par->color_floor = NULL;
 	cub->par->color_ceil = NULL;
 	cub->par->size_screan = NULL;
+	cub->par->sprite_tex = NULL;
 	cub->lst = NULL;
 	cub->height = 0;
 	cub->width = 0;
@@ -65,12 +66,14 @@ void all_free(t_cub *cub)
 	free(cub->par->s_tex);
 	free(cub->par->w_tex);
 	free(cub->par->e_tex);
+	free(cub->par->sprite_tex);
 	free(cub->par->size_screan); 
 	free(cub->par);
 	free(cub->dist);
 	free(cub->sprite_x);
 	free(cub->sprite_y);
 	free(cub->dist_sprite);
+	
 	while (cub->map[i] != 0)
 	{
 		free(cub->map[i]);

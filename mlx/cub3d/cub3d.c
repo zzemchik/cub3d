@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 16:51:00 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/24 18:25:38 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/26 21:02:06 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,27 @@ int			all_texure(t_cub *cub)
 	&cub->width_texture, &cub->height_texture);
 	cub->texture_add_north = mlx_get_data_addr(cub->texture_north,
 	&cub->bpp, &cub->size_line_tn, &i);
+
 	cub->texture_south = mlx_xpm_file_to_image(cub->mlx, cub->par->s_tex,
 	&cub->width_texture_s, &cub->height_texture_s);
 	cub->texture_add_south = mlx_get_data_addr(cub->texture_south,
 	&cub->bpp, &cub->size_line_ts, &i);
+
 	cub->texture_west = mlx_xpm_file_to_image(cub->mlx, cub->par->w_tex,
 	&cub->width_texture_w, &cub->height_texture_w);
 	cub->texture_add_west = mlx_get_data_addr(cub->texture_west,
 	&cub->bpp, &cub->size_line_tw, &i);
+
 	cub->texture_east = mlx_xpm_file_to_image(cub->mlx, cub->par->e_tex,
 	&cub->width_texture_e, &cub->height_texture_e);
 	cub->texture_add_east = mlx_get_data_addr(cub->texture_east,
 	&cub->bpp, &cub->size_line_te, &i);
+
+	cub->texture_sprite = mlx_xpm_file_to_image(cub->mlx, cub->par->sprite_tex, \
+	&(cub->width_texture_sprite), &(cub->height_texture_sprite));
+	cub->texture_add_sprite = mlx_get_data_addr(cub->texture_sprite,
+	&(cub->bpp), &(cub->size_line_tspr), &i);
+	printf("!\n");
 	return (0);
 	
 }
@@ -50,15 +59,33 @@ int exita()
 {
     exit(0);
 }
-
-int main () 
+// 220 100 12
+// color = red<<16 | 100<<8 | 12
+int main (int argv, char **argc) 
 {
-
 	t_cub *cub;
-	cub = malloc(sizeof(t_cub));
-	cub->par = malloc(sizeof(t_parser));
 	int i;
 	int j;
+	if (argv > 2)
+	{
+		write(1, "Error arguments!\n", 17);
+		return (0);
+	}
+	if (argv == 2)
+	{
+		printf("%s\n", argc[1]);
+		if (argc[1] == "--save")
+		{
+			printf("%s\n", "weq");
+		}
+		else
+		{
+			write(1, "Error arguments!\n", 17);
+			return (0);
+		}
+	}
+	cub = malloc(sizeof(t_cub));
+	cub->par = malloc(sizeof(t_parser));
 	g_error = 0;
 	all_set(cub);
 	i = 0;

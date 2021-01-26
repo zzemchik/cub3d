@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 16:58:04 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/24 20:19:52 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/25 17:01:38 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,38 +40,7 @@ static void	norm_where_im(int key, t_cub *cub)
 		}
 }
 
-// void	sort_dist_sprite(t_cub *cub)
-// {
-// 	int i;
-// 	int j;
-// 	double h;
-// 	int l;
-// 	j = 0;
-// 	i = 0;
-// 	while (i < cub->sprite_num)
-// 	{
-// 		h = cub->dist_sprite[i];
-// 		j = i + 1;
-// 		while (j < cub->sprite_num)
-// 		{
-// 			if (h > cub->dist_sprite[j])
-// 			{
-// 				h = cub->dist_sprite[j];
-// 				l = j;
-// 			}
-// 		j++;
-// 		}
-// 		if (h != cub->dist_sprite[i])
-// 		{
-// 			cub->dist_sprite[l] = cub->dist_sprite[i];
-// 			cub->dist_sprite[i] = h;
-// 			h = cub->sprite_dir[i];
-// 			cub->sprite_dir[i] = cub->sprite_dir[l];
-// 			cub->sprite_dir[l] = h;
-// 		}
-// 		i++;
-// 	}
-// }
+
 // void dir_sprite(t_cub *cub)
 // {
 // 	int i;

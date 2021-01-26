@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 16:47:17 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/24 14:28:01 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/26 17:41:53 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ static void	norm_what_in_line_2(t_cub *cub, char *line)
 		norm_what_in_line(&cub->par->color_ceil, line, 1);
 	else if (line[0] == 'R')
 		norm_what_in_line(&cub->par->size_screan, line, 1);
+	else if (line[0] == 'S')
+		norm_what_in_line(&cub->par->sprite_tex, line, 1);
 }
 
 void		what_in_line(char *line, t_cub *cub)
@@ -71,7 +73,7 @@ void		what_in_line(char *line, t_cub *cub)
 		if (cub->par->n_tex != 0 && cub->par->s_tex &&
 		cub->par->w_tex != 0 && cub->par->size_screan != 0 &&
 		cub->par->e_tex != 0 && cub->par->color_floor != 0 &&
-		cub->par->color_ceil != 0)
+		cub->par->color_ceil != 0 && cub->par->sprite_tex != 0)
 		{
 			valid_line_map(cub, line);
 			ft_lstadd_back(&cub->lst, ft_lstnew(ft_strdup(line)));

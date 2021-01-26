@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 16:35:13 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/24 16:25:46 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/25 18:13:51 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,8 @@ void	drow_wall(t_cub *cub, int i)
 	hit = cub->hit * cub->width_texture;
 	j = 0;
 	kall = 0;
-	cub->dist_wall = cub->dist_wall * cos(cub->fov - cub->direction);
 	h_wall = cub->height / 2;
-	h_wall = ceil((h_wall / tan(M_PI / 6)) / cub->dist_wall);
+	h_wall = ceil((h_wall / tan(M_PI / 6)) / (cub->dist_wall * cos(cub->fov - cub->direction)));
 	j = (cub->height - h_wall) / 2;
 	max = (cub->height + h_wall) / 2;
  	if (j < 0)

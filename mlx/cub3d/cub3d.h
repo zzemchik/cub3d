@@ -131,6 +131,7 @@ typedef struct s_parser
 	char *e_tex;
 	char *color_floor;
 	char *color_ceil;
+	char *sprite_tex;
 	char *size_screan;
 }				t_parser;
 
@@ -149,8 +150,8 @@ typedef struct	s_cub
 	int				sprite_num;
 	int				bpp;
 	double			*sprite_dir;
-	int			*sprite_x;
-	int			*sprite_y;
+	int				*sprite_x;
+	int				*sprite_y;
 	double			hit;
 	double			hit_sprite;
 	double			dist_wall;
@@ -161,7 +162,6 @@ typedef struct	s_cub
 	double			y;
 	double			direction;
 	double			fov;
-	double dist_sprite_q;
 	int				what_texture;
 	int				r_floor;
 	int				g_floor;
@@ -169,10 +169,13 @@ typedef struct	s_cub
 	int				r_ceil;
 	int				g_ceil;
 	int				b_ceil;
+	int				size_line_tspr;
 	int				size_line_tn;
 	int				size_line_ts;
 	int				size_line_te;
 	int				size_line_tw;
+	int				width_texture_sprite;
+	int				height_texture_sprite;
 	int				height_texture;
 	int				width_texture;
 	int				height_texture_s;
@@ -181,10 +184,12 @@ typedef struct	s_cub
 	int				width_texture_e;
 	int				height_texture_w;
 	int				width_texture_w;
+	void			*texture_sprite;
 	void			*texture_north;
 	void			*texture_south;
 	void			*texture_west;
 	void			*texture_east;
+	char			*texture_add_sprite;
 	char			*texture_add_south;
 	char			*texture_add_north;
 	char			*texture_add_west;
@@ -198,7 +203,7 @@ void		drow_wall(t_cub *cub, int i);
 char*		give_color(t_cub *cub, double kall, double hit);
 double		map_wall(double x, double y, t_cub *cub);
 void		my_mlx_pixel_put(int x, int y, unsigned int color, t_cub *cub);
-int 		drow_sprite(t_cub *cub, int u);
+void		drow_sprite(t_cub *cub, int k, int i);
 size_t		ft_strlen(const char *str);
 double		valid_pi(double dir);
 int			where_im(int key, t_cub *cub);
@@ -221,6 +226,7 @@ int			skip_spaces(const char *line, int i);
 void		parser(t_cub *cub);
 void		set_all(t_cub *cub);
 void 		where_sprite(t_cub *cub, int i);
+void		d(t_cub *cub, int i, int size, int point_sprite);
 
 
 
