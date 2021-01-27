@@ -92,12 +92,6 @@ int		norm_valid_map(int i, int j, int *g, t_cub *cub)
 	if (cub->map[i][j] == 'N' || cub->map[i][j] == 'S' || cub->map[i][j] == 'W' ||
 	cub->map[i][j] == 'E' || cub->map[i][j] == '2' || cub->map[i][j] == '0')
 	{
-		// if (cub->map[i][j] == '2')
-		// {
-		// 	cub->sprite_x[*g] = j + 0.5;
-		// 	cub->sprite_y[*g] = i + 0.5;
-		// 	(*g)++;
-		// }
 		k += norm_valid_map_1(cub, i, j);
 		k += norm_valid_map_2(cub, i, j);
 		if (k != 4)
@@ -114,7 +108,7 @@ void	valid_map(t_cub *cub)
 	int g;
 	int m;
 
-	i = 0;
+	i = -1;
 	m = 0;
 	g = 0;
 	cub->dist_sprite = malloc(sizeof(double) * (cub->sprite_num + 1));
@@ -123,16 +117,16 @@ void	valid_map(t_cub *cub)
 	cub->sprite_x[cub->sprite_num] = 0;
 	cub->sprite_y = malloc(sizeof(int) * cub->sprite_num + 1);
 	cub->sprite_y[cub->sprite_num] = 0;
-	cub->sprite_dir = malloc(sizeof(double) * cub->sprite_num + 1);
-	cub->sprite_dir[cub->sprite_num] = 0;
-
-	while (cub->map[++i] != NULL && (j = -1))
+	while (cub->map[++i] != NULL)
+	{
+		j = -1;
 		while (cub->map[i][++j] != 0)
 		{
 			if (g_error != 0)
 				break ;
 			m += norm_valid_map(i, j, &g, cub);
 		}
-	if (m == 0)
+	}
+	if (m != 1)
 		g_error = 1;
 }

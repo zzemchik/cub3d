@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 16:57:17 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/26 19:36:29 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/27 18:52:17 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,21 @@
 
 void all_null(t_cub *cub)
 {
-	cub->par->n_tex = NULL;
-	cub->par->s_tex = NULL;
-	cub->par->w_tex = NULL;
-	cub->par->e_tex = NULL;
-	cub->par->color_floor = NULL;
-	cub->par->color_ceil = NULL;
-	cub->par->size_screan = NULL;
-	cub->par->sprite_tex = NULL;
+	cub->no.name_texture = NULL;
+	cub->so.name_texture = NULL;
+	cub->we.name_texture = NULL;
+	cub->ea.name_texture = NULL;
+	cub->sp.name_texture = NULL;
 	cub->lst = NULL;
 	cub->height = 0;
 	cub->width = 0;
-	cub->b_ceil = 0;
-	cub->g_ceil = 0;
+	cub->ceil.r = -1;
+	cub->ceil.b = -1;
+	cub->ceil.g = -1;
+	cub->floor.r = -1;
+	cub->floor.b = -1;
+	cub->floor.g = -1;
 	cub->sprite_num = 0;
-	cub->r_ceil = 0;
-	cub->b_floor = 0;
-	cub->r_floor = 0;
-	cub->g_floor = 0;
 	cub->dist_sprite = 0;
 	cub->x = 0;
 	cub->y = 0;
@@ -45,6 +42,8 @@ void all_set(t_cub *cub)
 	nun = 0;
 	all_null(cub);
 	parser(cub);
+	cub->color_ceil = cub->ceil.r << 16 | cub->ceil.g << 8 | cub->ceil.b;
+	cub->color_floor = cub->floor.r << 16 | cub->floor.g << 8 | cub->floor.b;
 	cub->bpp = 32;
 	cub->dist = malloc(sizeof(double) * cub->width);
 	cub->mlx = mlx_init();
@@ -60,15 +59,11 @@ void all_free(t_cub *cub)
 	int i;
 
 	i = 0;
-	free(cub->par->color_floor);
-	free(cub->par->color_ceil);
-	free(cub->par->n_tex);
-	free(cub->par->s_tex);
-	free(cub->par->w_tex);
-	free(cub->par->e_tex);
-	free(cub->par->sprite_tex);
-	free(cub->par->size_screan); 
-	free(cub->par);
+	free(cub->no.name_texture);
+	free(cub->so.name_texture);
+	free(cub->we.name_texture);
+	free(cub->ea.name_texture);
+	free(cub->sp.name_texture);
 	free(cub->dist);
 	free(cub->sprite_x);
 	free(cub->sprite_y);

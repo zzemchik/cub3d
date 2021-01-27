@@ -6,72 +6,11 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 18:07:08 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/24 14:56:33 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/27 18:52:59 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-void	give_size_screan(t_cub *cub)
-{
-	int i;
-
-	i = 0;
-	cub->height = ft_atoi_cub(cub->par->size_screan, &i);
-	cub->width = ft_atoi_cub(cub->par->size_screan, &i);
-	i = 0;
-	cub->r_floor = ft_atoi_cub(cub->par->color_floor, &i);
-	i++;
-	cub->g_floor = ft_atoi_cub(cub->par->color_floor, &i);
-	i++;
-	cub->b_floor = ft_atoi_cub(cub->par->color_floor, &i);
-	i = 0;
-	cub->r_ceil = ft_atoi_cub(cub->par->color_ceil, &i);
-	i++;
-	cub->g_ceil = ft_atoi_cub(cub->par->color_ceil, &i);
-	i++;
-	cub->b_ceil = ft_atoi_cub(cub->par->color_ceil, &i);
-}
-
-void	valid_size_screan(char *str)
-{
-	int i;
-
-	i = 0;
-	while (str[i] != 0)
-	{
-		if ((str[i] <= '9' && str[i] >= '0') || str[i] == ' ')
-		{
-			i++;
-			continue;
-		}
-		g_error = 1;
-		break ;
-	}
-}
-
-void	valid_ceil_floor(char *str)
-{
-	int i;
-	int k;
-
-	k = 0;
-	i = 0;
-	while (str[i] != 0)
-	{
-		if ((str[i] <= '9' && str[i] >= '0') || str[i] == ' ' || str[i] == ',')
-		{
-			i++;
-			if (str[i] == ',')
-				k++;
-			continue;
-		}
-		g_error = 1;
-		break ;
-	}
-	if (k != 2)
-		g_error = 1;
-}
 
 void	space_map(char **str, int max, int num)
 {
@@ -116,6 +55,7 @@ void	norm_parser(t_cub *cub, int i)
 	}
 }
 
+
 void	parser(t_cub *cub)
 {
 	char	*line;
@@ -140,10 +80,6 @@ void	parser(t_cub *cub)
 		free(line);
 		close(fd);
 		norm_parser(cub, i);
-		valid_size_screan(cub->par->size_screan);
-		valid_ceil_floor(cub->par->color_ceil);
-		valid_ceil_floor(cub->par->color_floor);
-		give_size_screan(cub);
 		valid_map(cub);
 	}
 }

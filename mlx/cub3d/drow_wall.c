@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 16:35:13 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/25 18:13:51 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/27 18:02:03 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,22 @@ char*	give_color(t_cub *cub, double kall, double hit)
 {
 	if (cub->what_texture == 0)
 	{
-		return(cub->texture_add_north + (int)kall * cub->size_line_tn
+		return(cub->no.add_texture + (int)kall * cub->no.size_line
 		+ (int)hit * (cub->bpp / 8));
 	}
 	if (cub->what_texture == 1)
 	{
-		return(cub->texture_add_south + (int)kall * cub->size_line_ts
+		return(cub->so.add_texture + (int)kall * cub->so.size_line
 		+ (int)hit * (cub->bpp / 8));
 	}
 	if (cub->what_texture == 2)
 	{
-		return(cub->texture_add_east + (int)kall * cub->size_line_te
+		return(cub->ea.add_texture + (int)kall * cub->ea.size_line
 		+ (int)hit * (cub->bpp / 8));
 	}
 	if (cub->what_texture == 3)
 	{
-		return(cub->texture_add_west + (int)kall * cub->size_line_tw
+		return(cub->we.add_texture + (int)kall * cub->we.size_line
 		+ (int)hit * (cub->bpp / 8));
 	}
 	return (0);
@@ -47,7 +47,7 @@ void	drow_wall(t_cub *cub, int i)
 	double max;
 	double hit;
 
-	hit = cub->hit * cub->width_texture;
+	hit = cub->hit * cub->no.width;
 	j = 0;
 	kall = 0;
 	h_wall = cub->height / 2;
@@ -56,25 +56,24 @@ void	drow_wall(t_cub *cub, int i)
 	max = (cub->height + h_wall) / 2;
  	if (j < 0)
     {
-        kall = (double)cub->height_texture / (double)h_wall * (-j);
+        kall = (double)cub->no.height / (double)h_wall * (-j);
         j = 0;
         max = cub->height;
     }
 	f = j + 1;
 	while (--f > -1)
-		my_mlx_pixel_put(i, f, 0x56C5FF, cub);
+		my_mlx_pixel_put(i, f, cub->color_ceil, cub);
 	while (j < max)
 	{
 		color = *(unsigned int*)give_color(cub,  kall, hit);
 		my_mlx_pixel_put(i, j, color, cub);
 		j++;
-		kall += (double)cub->height_texture / (double)h_wall;
+		kall += (double)cub->no.height / (double)h_wall;
 	}
 	j--;
 	while (j++ < cub->height)
-		my_mlx_pixel_put(i, j, 0x252525, cub);
+		my_mlx_pixel_put(i, j, cub->color_floor, cub);
 }
-
 double	map_wall(double x, double y, t_cub *cub)
 {
 	double	distance;

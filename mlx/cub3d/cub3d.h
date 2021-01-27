@@ -123,20 +123,27 @@ typedef struct	s_list
 
 }				t_list;
 
-typedef struct s_parser 
+typedef	struct	s_texture
 {
-	char *n_tex;
-	char *s_tex;
-	char *w_tex;
-	char *e_tex;
-	char *color_floor;
-	char *color_ceil;
-	char *sprite_tex;
-	char *size_screan;
-}				t_parser;
+	int				size_line;
+	void			*texture;
+	char			*add_texture;
+	char			*name_texture;
+	int				width;
+	int				height;
+}				t_texture;
+
+typedef	struct	s_color
+{
+	int	r;
+	int g;
+	int b;
+}				t_color;
 
 typedef struct	s_cub
 {
+	unsigned int	color_floor;
+	unsigned int	color_ceil;
     double			*dist;
     void			*mlx;
     void			*mlx_win;
@@ -149,7 +156,6 @@ typedef struct	s_cub
 	int				size_line;
 	int				sprite_num;
 	int				bpp;
-	double			*sprite_dir;
 	int				*sprite_x;
 	int				*sprite_y;
 	double			hit;
@@ -163,38 +169,13 @@ typedef struct	s_cub
 	double			direction;
 	double			fov;
 	int				what_texture;
-	int				r_floor;
-	int				g_floor;
-	int				b_floor;
-	int				r_ceil;
-	int				g_ceil;
-	int				b_ceil;
-	int				size_line_tspr;
-	int				size_line_tn;
-	int				size_line_ts;
-	int				size_line_te;
-	int				size_line_tw;
-	int				width_texture_sprite;
-	int				height_texture_sprite;
-	int				height_texture;
-	int				width_texture;
-	int				height_texture_s;
-	int				width_texture_s;
-	int				height_texture_e;
-	int				width_texture_e;
-	int				height_texture_w;
-	int				width_texture_w;
-	void			*texture_sprite;
-	void			*texture_north;
-	void			*texture_south;
-	void			*texture_west;
-	void			*texture_east;
-	char			*texture_add_sprite;
-	char			*texture_add_south;
-	char			*texture_add_north;
-	char			*texture_add_west;
-	char			*texture_add_east;
-	t_parser		*par;
+	t_color			ceil;
+	t_color			floor;
+	t_texture		no;
+	t_texture		so;
+	t_texture		we;
+	t_texture		ea;
+	t_texture		sp;
 	t_list			*lst;
 }				t_cub;
 

@@ -6,44 +6,35 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 16:51:00 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/26 21:02:06 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/27 18:48:11 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int			all_texure(t_cub *cub)
+static	void help_texture(t_cub *cub, t_texture *a)
 {
 	int i;
-
+	a->texture = mlx_xpm_file_to_image(cub->mlx, a->name_texture, \
+	&(a->width), &(a->height));
+	if (a->texture == 0)
+	{	
+		g_error = 2;
+		return ;
+	}
+	a->add_texture = mlx_get_data_addr(a->texture, \
+	&cub->bpp, &(a->size_line), &i);
 	i = 0;
-	cub->texture_north = mlx_xpm_file_to_image(cub->mlx, cub->par->n_tex,
-	&cub->width_texture, &cub->height_texture);
-	cub->texture_add_north = mlx_get_data_addr(cub->texture_north,
-	&cub->bpp, &cub->size_line_tn, &i);
 
-	cub->texture_south = mlx_xpm_file_to_image(cub->mlx, cub->par->s_tex,
-	&cub->width_texture_s, &cub->height_texture_s);
-	cub->texture_add_south = mlx_get_data_addr(cub->texture_south,
-	&cub->bpp, &cub->size_line_ts, &i);
-
-	cub->texture_west = mlx_xpm_file_to_image(cub->mlx, cub->par->w_tex,
-	&cub->width_texture_w, &cub->height_texture_w);
-	cub->texture_add_west = mlx_get_data_addr(cub->texture_west,
-	&cub->bpp, &cub->size_line_tw, &i);
-
-	cub->texture_east = mlx_xpm_file_to_image(cub->mlx, cub->par->e_tex,
-	&cub->width_texture_e, &cub->height_texture_e);
-	cub->texture_add_east = mlx_get_data_addr(cub->texture_east,
-	&cub->bpp, &cub->size_line_te, &i);
-
-	cub->texture_sprite = mlx_xpm_file_to_image(cub->mlx, cub->par->sprite_tex, \
-	&(cub->width_texture_sprite), &(cub->height_texture_sprite));
-	cub->texture_add_sprite = mlx_get_data_addr(cub->texture_sprite,
-	&(cub->bpp), &(cub->size_line_tspr), &i);
-	printf("!\n");
+}
+int			all_texure(t_cub *cub)
+{
+	help_texture(cub, &(cub->no));
+	help_texture(cub, &(cub->so));
+	help_texture(cub, &(cub->we));
+	help_texture(cub, &(cub->ea));
+	help_texture(cub, &(cub->sp));
 	return (0);
-	
 }
 
 void            my_mlx_pixel_put(int x, int y, unsigned int color, t_cub *cub)
@@ -59,50 +50,55 @@ int exita()
 {
     exit(0);
 }
-// 220 100 12
-// color = red<<16 | 100<<8 | 12
+
 int main (int argv, char **argc) 
 {
 	t_cub *cub;
 	int i;
 	int j;
+	char *a;
 	if (argv > 2)
 	{
 		write(1, "Error arguments!\n", 17);
 		return (0);
 	}
 	if (argv == 2)
-	{
-		printf("%s\n", argc[1]);
-		if (argc[1] == "--save")
-		{
-			printf("%s\n", "weq");
-		}
-		else
-		{
+		if (!(argc[1][0] == '-' && argc[1][1] == '-' && argc[1][2] == 's' && argc[1][3] == 'a' && \
+		argc[1][4] == 'v' && argc[1][5] == 'e' && argc[1][6] == 0))
+		{	
 			write(1, "Error arguments!\n", 17);
 			return (0);
 		}
-	}
 	cub = malloc(sizeof(t_cub));
-	cub->par = malloc(sizeof(t_parser));
 	g_error = 0;
 	all_set(cub);
 	i = 0;
  	if (g_error != 0)
 	{
 		all_free(cub);
-		printf("Error");
+		if (g_error == 2)
+			write(1, "Error name texture!\n", 20);
+		else if (g_error == 1)
+			write(1, "Error\n", 6);
 		exit(0);
 	}
 	
 	all_texure(cub);
+	if (g_error != 0)
+	{
+		all_free(cub);
+		if (g_error == 2)
+			write(1, "Error name texture!\n", 20);
+		else if (g_error == 1)
+			write(1, "Error\n", 6);
+		exit(0);
+	}
 	while (cub->map[i] != 0)
 	{
 		j = 0;
 		while(cub->map[i][j])
 		{
-			if (cub->map[i][j] == 'N' || cub->map[i][j] == 'E' ||
+			if (cub->map[i][j] == 'N' || cub->map[i][j] == 'E' || \
 			cub->map[i][j] == 'S' || cub->map[i][j] == 'W')
 			{
 				cub->x = j + 0.5;
@@ -121,52 +117,19 @@ int main (int argv, char **argc)
 		}
 		i++;
 	}
+	where_im(3, cub);
+	// if (argv == 2)
+	// {
+	// 	mlx_loop_hook(cub->mlx, search_wall, cub);
+    // 	mlx_loop(cub->mlx);
+	//  	all_free(cub);
+	// 	return(0);
+	// }
  	mlx_hook(cub->mlx_win, 2, 1L << 0, where_im, cub);
 	mlx_hook(cub->mlx_win, 3, 1L << 1, where_im, cub);
     mlx_hook(cub->mlx_win, 17, 1L << 17, exita, 0);
 	mlx_loop_hook(cub->mlx, search_wall, cub);
     mlx_loop(cub->mlx);
-	
     all_free(cub);
-
 	return (0);
 }
-	//mini_map
-
-	// while (cub->map[i])
-	// {
-	// 	j = 0;
-	// 	while(cub->map[i][j])
-	// 	{
-	// 		if (cub->map[i][j] == '1')
-	// 			{
-	// 			x = 0;
-	// 			while (x < 200)
-	// 				{
-	// 				y = 0;
-	// 				while (y < 200)
-	// 				{
-	// 					my_mlx_pixel_put(i * 200 + x, j * 200 + y, 0x3431fe, cub->data, cub->size_line);
-	// 					y++;
-	// 				}
-	// 				x++;
-	// 				}
-	// 			}
-	// 		j++;
-	// 	}
-	// i++;
-	// }
-	// i = cub->x * 200;
-	// while (i < cub->x * 200 + 15)
-	// { 
-	// 	j = cub->y * 200;
-	// 	while (j < cub->y * 200 + 15)
-	// 	{
-	// 		my_mlx_pixel_put(i, j, 0x34F800, cub->data, cub->size_line);
-	// 		my_mlx_pixel_put(cub->x * 200 - (i - cub->x * 200), j, 0x34F800, cub->data, cub->size_line);
-	// 		my_mlx_pixel_put(i, cub->y * 200 - (j - cub->y * 200), 0x34F800, cub->data, cub->size_line);
-	// 		my_mlx_pixel_put(cub->x * 200 - (i - cub->x * 200), cub->y * 200 - (j - cub->y * 200), 0x34F800, cub->data, cub->size_line);
-	// 		j++;
-	// }
-	// 	i++;
-	// }
