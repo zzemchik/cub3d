@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 16:35:13 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/27 18:02:03 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/29 15:58:34 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,17 @@
 char*	give_color(t_cub *cub, double kall, double hit)
 {
 	if (cub->what_texture == 0)
-	{
-		return(cub->no.add_texture + (int)kall * cub->no.size_line
+		return(cub->no.add_texture + (int)kall * cub->no.size_line \
 		+ (int)hit * (cub->bpp / 8));
-	}
 	if (cub->what_texture == 1)
-	{
-		return(cub->so.add_texture + (int)kall * cub->so.size_line
+		return(cub->so.add_texture + (int)kall * cub->so.size_line \
 		+ (int)hit * (cub->bpp / 8));
-	}
 	if (cub->what_texture == 2)
-	{
-		return(cub->ea.add_texture + (int)kall * cub->ea.size_line
+		return(cub->ea.add_texture + (int)kall * cub->ea.size_line \
 		+ (int)hit * (cub->bpp / 8));
-	}
 	if (cub->what_texture == 3)
-	{
-		return(cub->we.add_texture + (int)kall * cub->we.size_line
+		return(cub->we.add_texture + (int)kall * cub->we.size_line \
 		+ (int)hit * (cub->bpp / 8));
-	}
 	return (0);
 }
 void	drow_wall(t_cub *cub, int i)

@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 16:51:00 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/27 18:48:11 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/02/08 17:37:57 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,31 +46,40 @@ void            my_mlx_pixel_put(int x, int y, unsigned int color, t_cub *cub)
     *(unsigned int*)dst = color;
 }
 
-int exita()
+int exita(t_cub *cub)
 {
+	all_free(cub);
     exit(0);
 }
 
 int main (int argv, char **argc) 
 {
-	t_cub *cub;
-	int i;
-	int j;
-	char *a;
-	if (argv > 2)
+	t_cub	*cub;
+	int		i;
+	int		j;
+	char	*a;
+	if (argv > 3 || argv == 1)
 	{
 		write(1, "Error arguments!\n", 17);
 		return (0);
 	}
-	if (argv == 2)
-		if (!(argc[1][0] == '-' && argc[1][1] == '-' && argc[1][2] == 's' && argc[1][3] == 'a' && \
-		argc[1][4] == 'v' && argc[1][5] == 'e' && argc[1][6] == 0))
-		{	
-			write(1, "Error arguments!\n", 17);
-			return (0);
-		}
+	i = ft_strlen(argc[1]);
+	if (!(argc[1][i - 4] == '.' && argc[1][i - 3] == 'm' && \
+	argc[1][i - 2] == 'a' && argc[1][i - 1] == 'p' && argc[1][i] == 0))
+	{	
+		write(1, "Error arguments!\n", 17);
+		return (0);
+	}
+	if (argv == 3)
+		if (!(argc[2][0] == '-' && argc[2][1] == '-' && argc[2][2] == 's' && argc[2][3] == 'a' && \
+		argc[2][4] == 'v' && argc[2][5] == 'e' && argc[2][6] == 0))
+	{	
+		write(1, "Error arguments!\n", 17);
+		return (0);
+	}
 	cub = malloc(sizeof(t_cub));
 	g_error = 0;
+	cub->map_file = argc[1];
 	all_set(cub);
 	i = 0;
  	if (g_error != 0)
@@ -78,7 +87,7 @@ int main (int argv, char **argc)
 		all_free(cub);
 		if (g_error == 2)
 			write(1, "Error name texture!\n", 20);
-		else if (g_error == 1)
+		else
 			write(1, "Error\n", 6);
 		exit(0);
 	}
@@ -117,19 +126,15 @@ int main (int argv, char **argc)
 		}
 		i++;
 	}
-	where_im(3, cub);
-	// if (argv == 2)
-	// {
-	// 	mlx_loop_hook(cub->mlx, search_wall, cub);
-    // 	mlx_loop(cub->mlx);
-	//  	all_free(cub);
-	// 	return(0);
-	// }
- 	mlx_hook(cub->mlx_win, 2, 1L << 0, where_im, cub);
-	mlx_hook(cub->mlx_win, 3, 1L << 1, where_im, cub);
-    mlx_hook(cub->mlx_win, 17, 1L << 17, exita, 0);
+	if (argv == 3)
+	{
+		scr_sh(cub);
+		exita(cub);
+	}
+ 	mlx_hook(cub->mlx_win, 2, 1L << 0, key_press, cub);
+	mlx_hook(cub->mlx_win, 3, 1L << 1, key_release, cub);
+    mlx_hook(cub->mlx_win, 17, 1L << 17, exita, cub);
 	mlx_loop_hook(cub->mlx, search_wall, cub);
     mlx_loop(cub->mlx);
-    all_free(cub);
 	return (0);
 }

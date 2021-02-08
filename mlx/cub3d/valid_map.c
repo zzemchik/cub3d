@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   valid_cub->map.c                                        :+:      :+:    :+:   */
+/*   valid_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 17:10:06 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/24 14:54:22 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/29 16:09:07 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,15 @@ int		norm_valid_map_1(t_cub *cub, int i, int j)
 			break ;
 		n--;
 	}
-	n = i;
-	while (cub->map[n] != NULL)
+	n = i - 1;
+	while (cub->map[++n] != NULL)
 	{
-		if (cub->map[n][j] == '0' && cub->map[n + 1] != 0 && cub->map[n + 1][j] == ' ')
+		if (cub->map[n][j] == '0' && cub->map[n + 1] != 0 && \
+		cub->map[n + 1][j] == ' ')
 			break ;
-		else if ((cub->map[n + 1] == 0 || cub->map[n + 1][j] == ' ') &&
+		else if ((cub->map[n + 1] == 0 || cub->map[n + 1][j] == ' ') && \
 		cub->map[n][j] == '1' && (k = k + 1))
 			break ;
-		n++;
 	}
 	return (k);
 }
@@ -77,11 +77,9 @@ int		norm_valid_map(int i, int j, int *g, t_cub *cub)
 
 	k = 0;
 	m = 0;
-	
 	if (cub->map[i][j] == 'N' || cub->map[i][j] == 'S' ||
 	cub->map[i][j] == 'W' || cub->map[i][j] == 'E')
 	{
-		
 		if (m == 0)
 			m = 1;
 		else
@@ -89,8 +87,8 @@ int		norm_valid_map(int i, int j, int *g, t_cub *cub)
 			g_error = 1;
 		}
 	}
-	if (cub->map[i][j] == 'N' || cub->map[i][j] == 'S' || cub->map[i][j] == 'W' ||
-	cub->map[i][j] == 'E' || cub->map[i][j] == '2' || cub->map[i][j] == '0')
+	if (cub->map[i][j] == 'N' || cub->map[i][j] == 'S' || cub->map[i][j] == 'W'
+	|| cub->map[i][j] == 'E' || cub->map[i][j] == '2' || cub->map[i][j] == '0')
 	{
 		k += norm_valid_map_1(cub, i, j);
 		k += norm_valid_map_2(cub, i, j);
@@ -121,11 +119,7 @@ void	valid_map(t_cub *cub)
 	{
 		j = -1;
 		while (cub->map[i][++j] != 0)
-		{
-			if (g_error != 0)
-				break ;
 			m += norm_valid_map(i, j, &g, cub);
-		}
 	}
 	if (m != 1)
 		g_error = 1;

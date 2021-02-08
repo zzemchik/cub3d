@@ -1,119 +1,21 @@
 #ifndef CUB3D_H
 # define CUB3D_H
  
-#include <unistd.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <stdio.h>
-#include <math.h>
-#include <time.h>
-#include "mlx.h"
+# include <unistd.h>
+# include <stdlib.h>
+# include <fcntl.h>
+# include <stdio.h>
+# include <math.h>
+# include <time.h>
+# include "mlx.h"
 
-#define ESC							53 
+# define ESC						53 
 #define W							13
 #define A							0
 #define S							1
 #define D							2
 #define LEFT						123
 #define RIGHT						124
-
-
-
-
-
-
-//
-#define NoEventMask					0L
-#define KeyPressMask				(1L<<0)
-#define KeyReleaseMask				(1L<<1)
-#define ButtonPressMask				(1L<<2)
-#define ButtonReleaseMask			(1L<<3)
-#define EnterWindowMask				(1L<<4)
-#define LeaveWindowMask				(1L<<5)
-#define PointerMotionMask			(1L<<6)
-#define PointerMotionHintMask		(1L<<7)
-#define Button1MotionMask			(1L<<8)
-#define Button2MotionMask			(1L<<9)
-#define Button3MotionMask			(1L<<10)
-#define Button4MotionMask			(1L<<11)
-#define Button5MotionMask			(1L<<12)
-#define ButtonMotionMask			(1L<<13)
-#define KeymapStateMask				(1L<<14)
-#define ExposureMask				(1L<<15)
-#define VisibilityChangeMask		(1L<<16)
-#define StructureNotifyMask			(1L<<17)
-#define ResizeRedirectMask			(1L<<18)
-#define SubstructureNotifyMask		(1L<<19)
-#define SubstructureRedirectMask	(1L<<20)
-#define FocusChangeMask				(1L<<21)
-#define PropertyChangeMask			(1L<<22)
-#define ColormapChangeMask			(1L<<23)
-#define OwnerGrabButtonMask			(1L<<24)
-
-/* Event names.  Used in "type" field in XEvent structures.  Not to be
-confused with event masks above.  They start from 2 because 0 and 1
-are reserved in the protocol for errors and replies. */
-
-#define KeyPress			2
-#define KeyRelease			3
-#define ButtonPress			4
-#define ButtonRelease		5
-#define MotionNotify		6
-#define EnterNotify			7
-#define LeaveNotify			8
-#define FocusIn				9
-#define FocusOut			10
-#define KeymapNotify		11
-#define Expose				12
-#define GraphicsExpose		13
-#define NoExpose			14
-#define VisibilityNotify	15
-#define CreateNotify		16
-#define DestroyNotify		17
-#define UnmapNotify			18
-#define MapNotify			19
-#define MapRequest			20
-#define ReparentNotify		21
-#define ConfigureNotify		22
-#define ConfigureRequest	23
-#define GravityNotify		24
-#define ResizeRequest		25
-#define CirculateNotify		26
-#define CirculateRequest	27
-#define PropertyNotify		28
-#define SelectionClear		29
-#define SelectionRequest	30
-#define SelectionNotify		31
-#define ColormapNotify		32
-#define ClientMessage		33
-#define MappingNotify		34
-#define GenericEvent		35
-#define LASTEvent			36    /* must be bigger than any event # */
-
-
-/* Key masks. Used as modifiers to GrabButton and GrabKey, results of QueryPointer,
-   state in various key-, mouse-, and button-related events. */
-
-#define ShiftMask       (1<<0)
-#define LockMask        (1<<1)
-#define ControlMask     (1<<2)
-#define Mod1Mask        (1<<3)
-#define Mod2Mask        (1<<4)
-#define Mod3Mask        (1<<5)
-#define Mod4Mask        (1<<6)
-#define Mod5Mask        (1<<7)
-
-/* modifier names.  Used to build a SetModifierMapping request or
-   to read a GetModifierMapping request.  These correspond to the
-   masks defined above. */
-#define ShiftMapIndex       0
-#define LockMapIndex        1
-#define ControlMapIndex     2
-#define Mod1MapIndex        3
-#define Mod2MapIndex        4
-#define Mod3MapIndex        5
-#define Mod4MapIndex        6
-#define Mod5MapIndex        7
 
 int g_error;
 typedef struct	s_list
@@ -140,7 +42,17 @@ typedef	struct	s_color
 	int b;
 }				t_color;
 
-typedef struct	s_cub
+typedef	struct	s_keys
+{
+	char			w;
+	char			a;
+	char			s;
+	char			d;
+	char 			right;
+	char			left;
+}				t_keys;
+
+typedef struct		s_cub
 {
 	unsigned int	color_floor;
 	unsigned int	color_ceil;
@@ -153,6 +65,7 @@ typedef struct	s_cub
 	void			*image;
 	char			**map;
 	char			*data;
+	char			*map_file;
 	int				size_line;
 	int				sprite_num;
 	int				bpp;
@@ -168,6 +81,7 @@ typedef struct	s_cub
 	double			y;
 	double			direction;
 	double			fov;
+	double			*dist_wall_all;
 	int				what_texture;
 	t_color			ceil;
 	t_color			floor;
@@ -176,6 +90,7 @@ typedef struct	s_cub
 	t_texture		we;
 	t_texture		ea;
 	t_texture		sp;
+	t_keys			keys;
 	t_list			*lst;
 }				t_cub;
 
@@ -184,10 +99,11 @@ void		drow_wall(t_cub *cub, int i);
 char*		give_color(t_cub *cub, double kall, double hit);
 double		map_wall(double x, double y, t_cub *cub);
 void		my_mlx_pixel_put(int x, int y, unsigned int color, t_cub *cub);
-void		drow_sprite(t_cub *cub, int k, int i);
+void		drow_sprite(t_cub *cub, int k);
 size_t		ft_strlen(const char *str);
 double		valid_pi(double dir);
-int			where_im(int key, t_cub *cub);
+int			key_release(int key, t_cub *cub);
+int			key_press(int key, t_cub *cub);
 int			search_wall(t_cub *cub);
 char		*ft_strjoin(char const *s1, char const *s2);
 char		*ft_strdup(const char *str);
@@ -207,8 +123,9 @@ int			skip_spaces(const char *line, int i);
 void		parser(t_cub *cub);
 void		set_all(t_cub *cub);
 void 		where_sprite(t_cub *cub, int i);
-void		d(t_cub *cub, int i, int size, int point_sprite);
-
-
-
+void		d(t_cub *cub, int size, int point_sprite, double dist_sprite);
+void		valid_texture(char *texture);
+void		valid_ceil_floor(char *str, t_color *a, int i);
+void		movement(t_cub *cub);
+int			scr_sh(t_cub *cub);
 #endif

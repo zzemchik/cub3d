@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 16:47:17 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/27 19:07:26 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/02/08 17:45:58 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	valid_line_map(t_cub *cub, const char *line)
 	i = 0;
 	while (line[i] != 0)
 	{
-		if(line[i] == '2')
+		if (line[i] == '2')
 			cub->sprite_num++;
 		if (line[i] == '1' || line[i] == 'N' ||
 		line[i] == 'S' || line[i] == 'W' ||
@@ -36,7 +36,6 @@ static void	valid_line_map(t_cub *cub, const char *line)
 
 static void	valid_size_screan(char *str, t_cub *cub, int i)
 {
-
 	while (str[i] != 0)
 	{
 		if ((str[i] <= '9' && str[i] >= '0') || str[i] == ' ')
@@ -49,8 +48,15 @@ static void	valid_size_screan(char *str, t_cub *cub, int i)
 	}
 	i = 1;
 	cub->height = ft_atoi_cub(str, &i);
+	if (cub->height < 0)
+		g_error = 1;
+	if (cub->height > 1280)
+		cub->height = 1280;
 	cub->width = ft_atoi_cub(str, &i);
-	
+	if (cub->width > 1920)
+		cub->width = 1920;
+	if (cub->width < 0)
+		g_error = 1;
 }
 
 static char	*norm_what_in_line(char **str, char *line, int i)
@@ -62,45 +68,6 @@ static char	*norm_what_in_line(char **str, char *line, int i)
 		i++;
 	*str = ft_strdup(&line[i]);
 	return (*str);
-}
-
-void	valid_ceil_floor(char *str, t_color *a, int i)
-{
-	int k;
-
-	k = 0;
-	while (str[++i] != 0)
-	{
-		if ((str[i] <= '9' && str[i] >= '0') || str[i] == ' ' || str[i] == ',')
-		{
-			if (str[i] == ',')
-				k++;
-			continue;
-		}
-		g_error = 1;
-		break ;
-	}
-	if (k != 2)
-		g_error = 1;
-	i = 1;
-	a->r = ft_atoi_cub(str, &i);
-	i++;
-	a->g = ft_atoi_cub(str, &i);
-	i++;
-	a->b =ft_atoi_cub(str, &i);
-	if (a->r < 0 || a->r > 255 || a->g < 0 || a->g > 255 || a->b < 0 || a->b > 255)
-		g_error = 1;
-}
-
-void	valid_texture(char *texture)
-{
-	int i;
-
-	i = ft_strlen(texture);
-	if (texture[0] != '.' || texture[1] != '/' || texture[i - 1] != 'm' ||
-	texture[i - 2] != 'p' || texture[i - 3] != 'x' || texture[i - 4] != '.')
-		g_error = 2;
-	
 }
 
 static void	norm_what_in_line_2(t_cub *cub, char *line)

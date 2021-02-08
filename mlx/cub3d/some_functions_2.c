@@ -6,13 +6,13 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 13:32:55 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/17 20:45:38 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/29 16:13:41 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int ft_atoi_cub(const char *str, int *i)
+int	ft_atoi_cub(const char *str, int *i)
 {
 	int k;
 	int num;
@@ -32,13 +32,12 @@ int ft_atoi_cub(const char *str, int *i)
 	}
 	while (str[*i] <= '9' && str[*i] >= '0')
 		(*i)++;
-	return(num * k);
-
+	return (num * k);
 }
 
 int	skip_spaces(const char *line, int i)
 {
 	while (line[i] == ' ')
 		i++;
-	return i;
+	return (i);
 }

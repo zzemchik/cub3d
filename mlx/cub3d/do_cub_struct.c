@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 16:57:17 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/27 18:52:17 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/02/08 17:35:58 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,25 +33,34 @@ void all_null(t_cub *cub)
 	cub->x = 0;
 	cub->y = 0;
 	cub->direction = 0;
+	cub->keys.w = 0;
+	cub->keys.a = 0;
+	cub->keys.s = 0;
+	cub->keys.d = 0;
+	cub->keys.left = 0;
+	cub->keys.right = 0;
 }
 
 void all_set(t_cub *cub)
 {
 	int nun;
-
 	nun = 0;
 	all_null(cub);
 	parser(cub);
-	cub->color_ceil = cub->ceil.r << 16 | cub->ceil.g << 8 | cub->ceil.b;
-	cub->color_floor = cub->floor.r << 16 | cub->floor.g << 8 | cub->floor.b;
-	cub->bpp = 32;
-	cub->dist = malloc(sizeof(double) * cub->width);
-	cub->mlx = mlx_init();
-	cub->cos = cos(cub->direction) * 0.05;
-	cub->sin = sin(cub->direction) * 0.05;
-	cub->image = mlx_new_image(cub->mlx, cub->width, cub->height);
-	cub->data = mlx_get_data_addr(cub->image, &cub->bpp, &cub->size_line, &nun);
-	cub->mlx_win = mlx_new_window(cub->mlx, cub->width, cub->height, "Cub3D");
+	if (g_error == 0)
+	{
+		cub->color_ceil = cub->ceil.r << 16 | cub->ceil.g << 8 | cub->ceil.b;
+		cub->color_floor = cub->floor.r << 16 | cub->floor.g << 8 | cub->floor.b;
+		cub->bpp = 32;
+		cub->dist = malloc(sizeof(double) * cub->width);
+		cub->mlx = mlx_init();
+		cub->cos = cos(cub->direction) * 0.05;
+		cub->sin = sin(cub->direction) * 0.05;
+		cub->image = mlx_new_image(cub->mlx, cub->width, cub->height);
+		cub->data = mlx_get_data_addr(cub->image, &cub->bpp, &cub->size_line, &nun);
+		cub->mlx_win = mlx_new_window(cub->mlx, cub->width, cub->height, "Cub3D");
+		cub->dist_wall_all = malloc(sizeof(double) * cub->width);
+	}
 }
 
 void all_free(t_cub *cub)
@@ -59,21 +68,24 @@ void all_free(t_cub *cub)
 	int i;
 
 	i = 0;
-	free(cub->no.name_texture);
-	free(cub->so.name_texture);
-	free(cub->we.name_texture);
-	free(cub->ea.name_texture);
-	free(cub->sp.name_texture);
-	free(cub->dist);
-	free(cub->sprite_x);
-	free(cub->sprite_y);
-	free(cub->dist_sprite);
-	
-	while (cub->map[i] != 0)
+	if (g_error != 3)
 	{
-		free(cub->map[i]);
-		i++;
+		free(cub->no.name_texture);
+		free(cub->so.name_texture);
+		free(cub->we.name_texture);
+		free(cub->ea.name_texture);
+		free(cub->sp.name_texture);
+		free(cub->dist);
+		free(cub->sprite_x);
+		free(cub->sprite_y);
+		free(cub->dist_sprite);
+		free(cub->dist_wall_all);
+		while (cub->map[i] != 0)
+		{
+			free(cub->map[i]);
+			i++;
+		}
+		free(cub->map);
 	}
-	free(cub->map);
 	free(cub);
 }

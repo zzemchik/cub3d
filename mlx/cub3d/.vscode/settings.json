@@ -5,6 +5,11 @@
 		"iostream": "cpp",
 		"istream": "cpp",
 		"iterator": "cpp",
-		"iosfwd": "cpp"
+		"iosfwd": "cpp",
+		"__config": "cpp",
+		"algorithm": "cpp",
+		"chrono": "cpp",
+		"locale": "cpp",
+		"memory": "cpp"
 	}
 }

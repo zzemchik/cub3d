@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 18:07:08 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/27 18:52:59 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/02/08 17:34:29 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ void	parser(t_cub *cub)
 	int		fd;
 	int		i;
 
-	fd = open("map.txt", O_RDONLY);
+	if ((fd = open(cub->map_file, O_RDONLY)) == -1)
+		g_error = 3;
 	i = 0;
 	while ((i = get_next_line(fd, &line)) != 0 && g_error == 0)
 	{

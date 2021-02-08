@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 16:53:19 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/18 10:42:19 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/01/29 16:12:32 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ size_t	ft_strlen(const char *str)
 		i++;
 	return (i);
 }
-
 
 double	valid_pi(double dir)
 {
@@ -50,8 +49,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (s2 != 0)
 		b = ft_strlen(s2);
 	d = a;
-	c = (char *)malloc(a + b + 1);
-	if (c == 0)
+	if ((c = (char *)malloc(a + b + 1)) == 0)
 	{
 		g_error = 1;
 		return (0);
