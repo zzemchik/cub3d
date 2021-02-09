@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 18:07:08 by rnancee           #+#    #+#             */
-/*   Updated: 2021/02/08 17:34:29 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/02/09 16:31:17 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void	norm_parser(t_cub *cub, int i)
 		i++;
 	}
 }
-
 
 void	parser(t_cub *cub)
 {

@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:53:14 by rmass             #+#    #+#             */
-/*   Updated: 2021/01/29 18:48:07 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/02/09 16:30:57 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ int		scr_sh(t_cub *cub)
 	int		fd;
 	int		i;
 
-	if ((fd = open("screenshot.bmp", O_RDWR | O_CREAT | O_TRUNC, 00600 | 00060 | 00006)) < 0)
+	if ((fd = open("screenshot.bmp", \
+	O_RDWR | O_CREAT | O_TRUNC, 00600 | 00060 | 00006)) < 0)
 	{
 		g_error = 1;
 		return (0);
@@ -71,5 +72,6 @@ int		scr_sh(t_cub *cub)
 	while (--i >= 0)
 		write(fd, cub->data + i * cub->width * 4, 4 * cub->width);
 	close(fd);
+	exita(cub);
 	return (0);
 }

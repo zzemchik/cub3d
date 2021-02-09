@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 16:58:04 by rnancee           #+#    #+#             */
-/*   Updated: 2021/02/08 17:22:27 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/02/09 13:40:56 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,14 @@
 
 void		movement_norm_1(t_cub *cub)
 {
+	double s;
+	double c;
+
+	c = cub->cos * 2;
+	s = cub->sin * 2;
 	if (cub->keys.a)
 	{
-		if (cub->map[(int)(cub->y - cub->cos)][(int)(cub->x + cub->sin)] != '1'
-		&& cub->map[(int)(cub->y - cub->cos)][(int)(cub->x + cub->sin)] != '2')
+		if (cub->map[(int)(cub->y - c)][(int)(cub->x + s)] != '1')
 		{
 			cub->x += cub->sin;
 			cub->y -= cub->cos;
@@ -25,8 +29,7 @@ void		movement_norm_1(t_cub *cub)
 	}
 	if (cub->keys.s)
 	{
-		if (cub->map[(int)(cub->y - cub->sin)][(int)(cub->x - cub->cos)] != '1'
-		&& cub->map[(int)(cub->y - cub->sin)][(int)(cub->x - cub->cos)] != '2')
+		if (cub->map[(int)(cub->y - s)][(int)(cub->x - c)] != '1')
 		{
 			cub->x -= cub->cos;
 			cub->y -= cub->sin;
@@ -44,10 +47,14 @@ void		movement_norm_2(t_cub *cub)
 
 void		movement(t_cub *cub)
 {
+	double s;
+	double c;
+
+	c = cub->cos * 2;
+	s = cub->sin * 2;
 	if (cub->keys.d)
 	{
-		if (cub->map[(int)(cub->y + cub->cos)][(int)(cub->x - cub->sin)] != '1'
-		&& cub->map[(int)(cub->y + cub->cos)][(int)(cub->x - cub->sin)] != '2')
+		if (cub->map[(int)(cub->y + c)][(int)(cub->x - s)] != '1')
 		{
 			cub->x -= cub->sin;
 			cub->y += cub->cos;
@@ -55,8 +62,7 @@ void		movement(t_cub *cub)
 	}
 	if (cub->keys.w)
 	{
-		if (cub->map[(int)(cub->y + cub->sin)][(int)(cub->x + cub->cos)] != '1'
-		&& cub->map[(int)(cub->y + cub->sin)][(int)(cub->x + cub->cos)] != '2')
+		if (cub->map[(int)(cub->y + s)][(int)(cub->x + c)] != '1')
 		{
 			cub->x += cub->cos;
 			cub->y += cub->sin;
@@ -64,9 +70,8 @@ void		movement(t_cub *cub)
 	}
 	movement_norm_1(cub);
 	movement_norm_2(cub);
-	cub->direction = valid_pi(cub->direction);
-	cub->cos = cos(cub->direction) * 0.1;
-	cub->sin = sin(cub->direction) * 0.1;
+	cub->cos = cos(valid_pi(cub->direction)) * 0.1;
+	cub->sin = sin(valid_pi(cub->direction)) * 0.1;
 }
 
 int			key_release(int key, t_cub *cub)

@@ -6,244 +6,78 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 17:02:40 by rnancee           #+#    #+#             */
-/*   Updated: 2021/02/08 16:44:10 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/02/09 14:35:36 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	search_wall_norm(t_cub *cub, int *i)
+static void	search_wall_norm(t_cub *cub, t_ray *ray)
 {
+	if (cub->fov < 2 * M_PI && cub->fov > M_PI)
+		ray->dy = ray->yy - floor(ray->yy - EPS);
+	else
+		ray->dy = ceil(ray->yy + EPS) - ray->yy;
+	if (cub->fov < 3 * M_PI / 2 && cub->fov > M_PI / 2)
+		ray->dx = ray->xx - floor(ray->xx - EPS);
+	else
+		ray->dx = ceil(ray->xx + EPS) - ray->xx;
+	if ((cub->fov > 0 && cub->fov < M_PI / 2) || \
+	(cub->fov > M_PI && cub->fov < 3 * M_PI / 2))
+	{
+		ray->a_1 = tan(fmod(cub->fov, M_PI / 2)) * ray->dx;
+		ray->b_1 = tan(M_PI / 2 - fmod(cub->fov, M_PI / 2)) * ray->dy;
+	}
+	else
+	{
+		ray->b_1 = tan(fmod(cub->fov, M_PI / 2)) * ray->dy;
+		ray->a_1 = tan(M_PI / 2 - fmod(cub->fov, M_PI / 2)) * ray->dx;
+	}
+	ray->b_gip = sqrt(pow(ray->b_1, 2) + pow(ray->dy, 2));
+	ray->a_gip = sqrt(pow(ray->a_1, 2) + pow(ray->dx, 2));
+}
 
+static void	search_wall_norm_2(t_cub *cub, t_ray *ray, int *u)
+{
+	while (1)
+	{
+		search_wall_norm(cub, ray);
+		if (ray->b_gip > ray->a_gip)
+		{
+			if (dist_a(cub, ray, u) == 1)
+				break ;
+		}
+		else
+		{
+			if (dist_b(cub, ray, u) == 1)
+				break ;
+		}
+	}
 }
 
 int			search_wall(t_cub *cub)
 {
-	
 	int		i;
 	int		u;
-	double	xx;
-	double	yy;
-	double	dx;
-	double	dy;
-	double	b_1;
-	double	a_1;
-	double	a_gip;
-	double	b_gip;
+	t_ray	ray;
+
 	u = 0;
-	int iter;
 	movement(cub);
-	
 	cub->fov = cub->direction - M_PI / 6;
-	
 	i = -1;
 	while (++i < cub->width)
 	{
 		cub->fov = valid_pi(cub->fov);
-			xx = cub->x;
-			yy = cub->y;
-		while (1)
-		{
-			if (cub->fov < 2 * M_PI && cub->fov > M_PI)
-				dy = yy - floor(yy - 0.000001);
-			else
-				dy = ceil(yy + 0.000001) - yy;
-			if (cub->fov < 3 * M_PI / 2 && cub->fov > M_PI / 2)
-				dx = xx - floor(xx - 0.000001);
-			else
-				dx = ceil(xx + 0.000001) - xx;
-			if ((cub->fov > 0 && cub->fov < M_PI / 2) || (cub->fov > M_PI && cub->fov < 3 * M_PI / 2))
-			{
-				a_1 = tan(fmod(cub->fov, M_PI / 2)) * dx;
-				b_1 = tan(M_PI / 2 - fmod(cub->fov, M_PI / 2)) * dy;
-			}
-			else
-			{
-				b_1 = tan(fmod(cub->fov, M_PI / 2)) * dy;
-				a_1 = tan(M_PI / 2 - fmod(cub->fov, M_PI / 2)) * dx;
-			}
-
-			b_gip = sqrt(pow(b_1, 2) + pow(dy, 2));
-			a_gip = sqrt(pow(a_1, 2) + pow(dx, 2));
-			if (b_gip > a_gip)
-			{
-				if (cub->fov < 3 * M_PI / 2 && cub->fov > M_PI / 2)
-					xx -= dx;
-				else
-					xx += dx;
-				if (cub->fov < 2 * M_PI && cub->fov > M_PI)
-					yy -= a_1;
-				else
-					yy += a_1;
-				if (cub->map[(int)floor(yy)][(int)floor(xx - 0.000001)] == '1')
-				{
-					if (cub->fov < 3 * M_PI / 2 && cub->fov >= M_PI / 2)
-					{
-						cub->what_texture = 0;
-						cub->hit = yy - floor(yy);
-					}
-					else
-					{
-						cub->what_texture = 1; 
-						cub->hit = ceil(yy) - yy;
-					}
-					break;
-				}
-				if (cub->map[(int)floor(yy)][(int)floor(xx + 0.000001)] == '1')
-				{
-				if (cub->fov < 3 * M_PI / 2 && cub->fov >= M_PI / 2)
-				{
-						cub->what_texture = 2; 
-						cub->hit = yy - floor(yy);
-				}
-					else
-					{
-						cub->what_texture = 3; 
-						cub->hit = ceil(yy) - yy;
-					}
-					break;
-				}
-				if (cub->map[(int)floor(yy)][(int)floor(xx - 0.000001)] == '2')
-				{ 
-					if (u == 0)
-					{
-						cub->sprite_x[u] =  (int)floor(xx - 0.000001);
-						cub->sprite_y[u] = (int)floor(yy);
-						u++;
-					}
-					else
-					{   
-						iter = 1;
-						while (u - iter >= 0 && (!(cub->sprite_x[u - iter] == (int)floor(xx - 0.000001) && cub->sprite_y[u - iter] == (int)floor(yy))))
-						{
-							iter++;
-						}
-						if (u - iter == -1)
-						{
-							cub->sprite_x[u] =  (int)floor(xx - 0.000001);
-							cub->sprite_y[u] = (int)floor(yy);
-							u++;
-						}
-					}
-				}
-				else if (cub->map[(int)floor(yy)][(int)floor(xx + 0.000001)] == '2')
-				{
-					if (u == 0)
-					{
-						cub->sprite_x[u] = (int)floor(xx + 0.000001);
-						cub->sprite_y[u] = (int)floor(yy);
-						u++;
-					}
-					else
-					{   
-						iter = 1;
-						while (u - iter >= 0 && (!(cub->sprite_x[u - iter] == (int)floor(xx + 0.000001) && cub->sprite_y[u - iter] == (int)floor(yy))))
-						{
-							iter++;
-						}
-						if(u - iter == -1)
-						{
-							cub->sprite_x[u] = (int)floor(xx + 0.000001);
-							cub->sprite_y[u] = (int)floor(yy);
-							u++;
-						}
-					}
-				}
-			}
-			else
-			{
-				if (cub->fov < 3 * M_PI / 2 && cub->fov > M_PI / 2)
-					xx -= b_1;
-				else
-					xx += b_1;
-				if (cub->fov < 2 * M_PI && cub->fov > M_PI)
-					yy -= dy;
-				else
-					yy += dy;
-				if (cub->map[(int)floor(yy - 0.000001)][(int)floor(xx)] == '1')
-				{  
-					if (cub->fov < M_PI && cub->fov >= 0)
-					{
-						cub->what_texture = 0;
-						cub->hit = ceil(xx) - xx;
-					}
-					else
-					{
-						cub->what_texture = 1;
-						cub->hit = xx - floor(xx);
-					}
-					break;
-				}
-				if (cub->map[(int)floor(yy + 0.000001)][(int)floor(xx)] == '1')
-				{   
-					if (cub->fov < M_PI && cub->fov >= 0)
-					{
-						cub->what_texture = 2;
-						cub->hit = ceil(xx) - xx;
-					}
-					else
-					{
-						cub->what_texture = 3;
-						cub->hit = xx - floor(xx);
-					}
-					break;
-				}
-				if (cub->map[(int)floor(yy - 0.000001)][(int)floor(xx)] == '2')
-				{  
-					if (u == 0)
-					{
-						cub->sprite_x[u] =  (int)floor(xx);
-						cub->sprite_y[u] = (int)floor(yy - 0.000001);
-						u++;
-					}
-					else
-					{   
-						iter = 1;
-						while (u - iter >= 0 && (!(cub->sprite_x[u - iter] == (int)floor(xx) && cub->sprite_y[u - iter] == (int)floor(yy  - 0.000001)))) 
-						{
-							iter++;
-						}
-						if (u - iter == -1)
-						{
-						cub->sprite_x[u] =  (int)floor(xx);
-						cub->sprite_y[u] = (int)floor(yy - 0.000001);
-						u++;
-						}
-					}
-				}
-				else if (cub->map[(int)floor(yy + 0.000001)][(int)floor(xx)] == '2')
-				{   
-					if (u == 0)
-					{
-						cub->sprite_x[u] =  (int)floor(xx);
-						cub->sprite_y[u] = (int)floor(yy + 0.000001);
-						u++;
-					}
-					else
-					{  
-						iter = 1;
-						while ( u - iter >= 0 && (!(cub->sprite_x[u - iter] == (int)floor(xx) && cub->sprite_y[u - iter] == (int)floor(yy  + 0.000001)))) 
-						{
-							iter++;
-						}
-						if (u - iter == -1)
-						{
-							cub->sprite_x[u] =  (int)floor(xx);
-							cub->sprite_y[u] = (int)floor(yy + 0.000001);
-							u++;
-						}
-					}
-				}
-			}
-		}
-		cub->dist_wall = sqrt(pow(xx - cub->x, 2) + pow(yy - cub->y, 2));
+		ray.xx = cub->x;
+		ray.yy = cub->y;
+		search_wall_norm_2(cub, &ray, &u);
+		cub->dist_wall = sqrt(pow(ray.xx - cub->x, 2) + \
+		pow(ray.yy - cub->y, 2));
 		cub->dist_wall_all[i] = cub->dist_wall;
 		drow_wall(cub, i);
 		cub->fov += M_PI / 3 / cub->width;
 	}
 	drow_sprite(cub, u);
 	mlx_put_image_to_window(cub->mlx, cub->mlx_win, cub->image, 0, 0);
-
-	
 	return (0);
 }

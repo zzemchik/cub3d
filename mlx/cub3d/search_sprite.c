@@ -6,56 +6,55 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 18:31:43 by rnancee           #+#    #+#             */
-/*   Updated: 2021/02/08 16:48:44 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/02/09 16:30:24 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-char*	give_color_sprite(t_cub *cub, double y_texture, double x_texture)
+static char			*give_c(t_cub *cub, double y_texture, double x_texture)
 {
-	return(cub->sp.add_texture + (int)y_texture * cub->sp.size_line
+	return (cub->sp.add_texture + (int)y_texture * cub->sp.size_line
 	+ (int)x_texture * (cub->bpp / 8));
 }
 
-void d(t_cub *cub, int size, int point_sprite, double dist_sprite)
+static void			drow_sprite_tx_norm(t_cub *cub, int size, t_sprite_tx *tx)
 {
-	int				j;
-	unsigned int	color;
-	double			y_texture;
-	double			max;
-	double			x_texture;
-	int				i;
+	while (tx->j < tx->max)
+	{
+		tx->color = \
+		*(unsigned int*)give_c(cub, tx->y_texture, tx->x_texture);
+		if (tx->color != 0)
+			my_mlx_pixel_put(tx->i, tx->j, tx->color, cub);
+		tx->j++;
+		tx->y_texture += (double)cub->sp.height / (double)size;
+	}
+}
 
-	j = 0;
-	y_texture = 0;
-	j = (cub->height - size) / 2;
-	max = (cub->height + size) / 2;
-	i = point_sprite;
-	while (i < point_sprite + size && i < cub->width)
-	{	
-		if (i >= 0)
+void				drow_sprite_tx(t_cub *cub, int size, \
+int point_sprite, double dist_sprite)
+{
+	t_sprite_tx		tx;
+
+	tx.max = (cub->height + size) / 2;
+	tx.i = point_sprite;
+	while (tx.i < point_sprite + size && tx.i < cub->width)
+	{
+		if (tx.i >= 0)
 		{
-			if (cub->dist_wall_all[i] <= dist_sprite && ++i)
+			if (cub->dist_wall_all[tx.i] <= dist_sprite && ++tx.i)
 				continue;
-			x_texture = cub->sp.width * (i - point_sprite) / size;
-			j = (cub->height - size) / 2;
-			y_texture = 0;
-			if (j < 0)
+			tx.x_texture = cub->sp.width * (tx.i - point_sprite) / size;
+			tx.j = (cub->height - size) / 2;
+			tx.y_texture = 0;
+			if (tx.j < 0)
 			{
-				y_texture = (double)cub->sp.height / (double)size * (-j);
-				j = 0;
-				max = cub->height;
+				tx.y_texture = (double)cub->sp.height / (double)size * (-tx.j);
+				tx.j = 0;
+				tx.max = cub->height;
 			}
-			while (j < max)
-			{
-				color = *(unsigned int*)give_color_sprite(cub, y_texture, x_texture);
-				if (color != 0)
-					my_mlx_pixel_put(i, j, color, cub);
-				j++;
-				y_texture += (double)cub->sp.height / (double)size;
-			}
+			drow_sprite_tx_norm(cub, size, &tx);
 		}
-		i++;
+		tx.i++;
 	}
 }

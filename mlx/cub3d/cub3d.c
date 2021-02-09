@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 16:51:00 by rnancee           #+#    #+#             */
-/*   Updated: 2021/02/08 17:37:57 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/02/09 17:39:17 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,18 @@ int exita(t_cub *cub)
     exit(0);
 }
 
+void	error_1(t_cub *cub)
+{
+	if (g_error != 0)
+	{
+		all_free(cub);
+		if (g_error == 2)
+			write(1, "Error name texture!\n", 20);
+		else
+			write(1, "Error\n", 6);
+		exit(0);
+	}
+}
 int main (int argv, char **argc) 
 {
 	t_cub	*cub;
@@ -82,26 +94,9 @@ int main (int argv, char **argc)
 	cub->map_file = argc[1];
 	all_set(cub);
 	i = 0;
- 	if (g_error != 0)
-	{
-		all_free(cub);
-		if (g_error == 2)
-			write(1, "Error name texture!\n", 20);
-		else
-			write(1, "Error\n", 6);
-		exit(0);
-	}
-	
+ 	error_1(cub);
 	all_texure(cub);
-	if (g_error != 0)
-	{
-		all_free(cub);
-		if (g_error == 2)
-			write(1, "Error name texture!\n", 20);
-		else if (g_error == 1)
-			write(1, "Error\n", 6);
-		exit(0);
-	}
+	error_1(cub);
 	while (cub->map[i] != 0)
 	{
 		j = 0;
@@ -136,5 +131,4 @@ int main (int argv, char **argc)
     mlx_hook(cub->mlx_win, 17, 1L << 17, exita, cub);
 	mlx_loop_hook(cub->mlx, search_wall, cub);
     mlx_loop(cub->mlx);
-	return (0);
 }
