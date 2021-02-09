@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 17:30:49 by rnancee           #+#    #+#             */
-/*   Updated: 2021/02/09 17:39:19 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/02/09 18:40:34 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,4 +174,5 @@ int					scr_sh(t_cub *cub);
 int					exita(t_cub *cub);
 int					dist_a(t_cub *cub, t_ray *ray, int *uu);
 int					dist_b(t_cub *cub, t_ray *ray, int *ll);
+void				error_1(t_cub *cub);
 #endif
