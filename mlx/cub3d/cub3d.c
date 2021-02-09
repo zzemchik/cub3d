@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 16:51:00 by rnancee           #+#    #+#             */
-/*   Updated: 2021/02/09 18:53:57 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/02/09 19:05:55 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ static int				check_argc(char **argc, int argv)
 int						main(int argv, char **argc)
 {
 	t_cub	*cub;
-	char	*a;
 
 	if (check_argc(argc, argv) == 0)
 		return (0);

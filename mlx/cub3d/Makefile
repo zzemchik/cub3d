@@ -10,23 +10,20 @@ OSOURCE= $(SOURCES:.c=.o)
 
 FLAGS = -Wall -Werror -Wextra
 
-MLIBS = -L -lftm -lmlxm -framework OpenGL -framework AppKit -lz -lm
+MLIBS = -lm -lmlx -framework OpenGL -framework AppKit
 
 all: $(NAME)
-	
-ifdef BONUS
 %.o: %.c
 	gcc -c $< $(FLAGS) -o $@ -I
 
 $(NAME): $(OSOURCE)
-	gcc -o $(NAME) $(OSOURCE) -I
+	gcc -o $(NAME) $(MLIBS) $(OSOURCE) -I
 
 clean:
 	@rm -rf $(OSOURCE)
 
 fclean: clean
 	@rm -rf $(NAME)
-
 re: fclean all
 
 .PHONY: clean fclean all

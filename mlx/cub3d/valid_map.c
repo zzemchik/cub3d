@@ -6,13 +6,13 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 17:10:06 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/29 16:09:07 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/02/09 19:08:11 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int		norm_valid_map_2(t_cub *cub, int i, int j)
+static int			norm_valid_map_2(t_cub *cub, int i, int j)
 {
 	int k;
 	int n;
@@ -41,7 +41,7 @@ int		norm_valid_map_2(t_cub *cub, int i, int j)
 	return (k);
 }
 
-int		norm_valid_map_1(t_cub *cub, int i, int j)
+static int			norm_valid_map_1(t_cub *cub, int i, int j)
 {
 	int k;
 	int n;
@@ -70,7 +70,7 @@ int		norm_valid_map_1(t_cub *cub, int i, int j)
 	return (k);
 }
 
-int		norm_valid_map(int i, int j, int *g, t_cub *cub)
+static int		norm_valid_map(int i, int j, t_cub *cub)
 {
 	int k;
 	int m;
@@ -98,17 +98,14 @@ int		norm_valid_map(int i, int j, int *g, t_cub *cub)
 	return (m);
 }
 
-void	valid_map(t_cub *cub)
+void			valid_map(t_cub *cub)
 {
 	int i;
 	int j;
-	int k;
-	int g;
 	int m;
 
 	i = -1;
 	m = 0;
-	g = 0;
 	cub->dist_sprite = malloc(sizeof(double) * (cub->sprite_num + 1));
 	cub->dist_sprite[cub->sprite_num] = 0;
 	cub->sprite_x = malloc(sizeof(int) * cub->sprite_num + 1);
@@ -119,7 +116,7 @@ void	valid_map(t_cub *cub)
 	{
 		j = -1;
 		while (cub->map[i][++j] != 0)
-			m += norm_valid_map(i, j, &g, cub);
+			m += norm_valid_map(i, j, cub);
 	}
 	if (m != 1)
 		g_error = 1;

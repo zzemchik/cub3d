@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 16:35:13 by rnancee           #+#    #+#             */
-/*   Updated: 2021/02/09 16:50:07 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/02/09 19:30:20 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,32 +69,4 @@ void		drow_wall(t_cub *cub, int i)
 		wall.max = cub->height;
 	}
 	drow_wall_norm(cub, i, &wall, j);
-}
-
-double		map_wall(double x, double y, t_cub *cub)
-{
-	double	distance;
-	int		i;
-	int		j;
-
-	if (j == floor(x))
-		j = floor(x - 0.1);
-	else
-		j = floor(x);
-	if (i == floor(y))
-		i = floor(y - 0.1);
-	else
-		i = floor(y);
-	if (j > 5)
-		j = 5;
-	if (i > 5)
-		i = 5;
-	if (i < 0)
-		i = 0;
-	if (j < 0)
-		j = 0;
-	distance = sqrt(pow(x - cub->x, 2) + pow(y - cub->y, 2));
-	if (cub->map[i][j] == '1')
-		return (distance);
-	return (-1);
 }

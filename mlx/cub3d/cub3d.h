@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 17:30:49 by rnancee           #+#    #+#             */
-/*   Updated: 2021/02/09 18:40:34 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/02/09 19:30:23 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,6 @@ typedef struct		s_cub
 int					g_error;
 void				drow_wall(t_cub *cub, int i);
 char				*give_color(t_cub *cub, double kall, double hit);
-double				map_wall(double x, double y, t_cub *cub);
 void				my_mlx_pixel_put(int x, int y, \
 					unsigned int color, t_cub *cub);
 void				drow_sprite(t_cub *cub, int k);
