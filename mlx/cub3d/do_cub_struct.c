@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 16:57:17 by rnancee           #+#    #+#             */
-/*   Updated: 2021/02/09 16:51:42 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/02/10 19:52:50 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,29 +67,40 @@ void	all_set(t_cub *cub)
 	}
 }
 
+void	all_free_norm(t_cub *cub)
+{
+	if (cub->no.name_texture)
+		free(cub->no.name_texture);
+	if (cub->so.name_texture)
+		free(cub->so.name_texture);
+	if (cub->we.name_texture)
+		free(cub->we.name_texture);
+	if (cub->ea.name_texture)
+		free(cub->ea.name_texture);
+	if (cub->sp.name_texture)
+		free(cub->sp.name_texture);
+}
+
 void	all_free(t_cub *cub)
 {
 	int i;
 
-	i = 0;
-	if (g_error != 3)
-	{
-		free(cub->no.name_texture);
-		free(cub->so.name_texture);
-		free(cub->we.name_texture);
-		free(cub->ea.name_texture);
-		free(cub->sp.name_texture);
+	i = -1;
+	all_free_norm(cub);
+	if (cub->dist)
 		free(cub->dist);
+	if (cub->sprite_x)
 		free(cub->sprite_x);
+	if (cub->sprite_y)
 		free(cub->sprite_y);
+	if (cub->dist_sprite)
 		free(cub->dist_sprite);
+	if (cub->dist_wall_all)
 		free(cub->dist_wall_all);
-		while (cub->map[i] != 0)
-		{
+	if (cub->map)
+		while (cub->map[++i] != 0)
 			free(cub->map[i]);
-			i++;
-		}
+	if (cub->map)
 		free(cub->map);
-	}
 	free(cub);
 }

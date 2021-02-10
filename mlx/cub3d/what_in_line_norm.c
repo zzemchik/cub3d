@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 16:04:16 by rnancee           #+#    #+#             */
-/*   Updated: 2021/01/29 16:05:35 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/02/10 19:42:24 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,15 @@ void		valid_ceil_floor(char *str, t_color *a, int i)
 		g_error = 1;
 		break ;
 	}
-	if (k != 2)
+	if (k != 2 || a->r != -1)
 		g_error = 1;
 	i = 1;
 	a->r = ft_atoi_cub(str, &i);
-	i++;
+	i = skip_spaces(str, i) + 1;
 	a->g = ft_atoi_cub(str, &i);
-	i++;
+	i = skip_spaces(str, i) + 1;
 	a->b = ft_atoi_cub(str, &i);
-	if (a->r < 0 || a->r > 255 || a->g < 0 || \
+	if ((ft_atoi_cub(str, &i)) || a->r < 0 || a->r > 255 || a->g < 0 || \
 	a->g > 255 || a->b < 0 || a->b > 255)
 		g_error = 1;
 }

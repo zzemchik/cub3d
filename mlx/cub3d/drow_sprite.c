@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 16:03:05 by rnancee           #+#    #+#             */
-/*   Updated: 2021/02/09 19:45:00 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/02/10 20:57:54 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void		drow_sprite(t_cub *cub, int k)
 		cub->sprite_x[k] - cub->x + 0.5) - cub->direction;
 		dir_sprite = valid_pi(dir_sprite);
 		size = w_sprite / (cos(dir_sprite) * cub->dist_sprite[k]);
-		point_sprite = cub->width / 2 + tan(dir_sprite) * w_sprite - size / 2;
+		point_sprite = (double)cub->width / 2 + tan(dir_sprite) * w_sprite - (double)size / 2;
 		if (size <= 0 || point_sprite >= cub->width)
 			continue ;
 		drow_sprite_tx(cub, size, point_sprite, cub->dist_sprite[k]);

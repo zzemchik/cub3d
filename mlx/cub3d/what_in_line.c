@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 16:47:17 by rnancee           #+#    #+#             */
-/*   Updated: 2021/02/08 17:45:58 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/02/10 14:08:51 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	valid_size_screan(char *str, t_cub *cub, int i)
 			continue;
 		}
 		g_error = 1;
-		break ;
+		return ;
 	}
 	i = 1;
 	cub->height = ft_atoi_cub(str, &i);
@@ -56,6 +56,8 @@ static void	valid_size_screan(char *str, t_cub *cub, int i)
 	if (cub->width > 1920)
 		cub->width = 1920;
 	if (cub->width < 0)
+		g_error = 1;
+	if (ft_atoi_cub(str, &i))
 		g_error = 1;
 }
 

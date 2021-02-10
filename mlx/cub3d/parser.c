@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 18:07:08 by rnancee           #+#    #+#             */
-/*   Updated: 2021/02/09 16:31:17 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/02/10 19:51:47 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,15 @@ void	norm_parser(t_cub *cub, int i)
 		i++;
 		lst_cpy = cub->lst;
 		cub->lst = cub->lst->next;
-		free(lst_cpy->line);
-		free(lst_cpy);
+		if (lst_cpy->line)
+			free(lst_cpy->line);
+		if (lst_cpy)
+			free(lst_cpy);
 	}
 	cub->map[i] = 0;
-	i = 0;
-	while (cub->map[i] != 0)
-	{
+	i = -1;
+	while (cub->map[++i] != 0)
 		space_map(&cub->map[i], size_len_max, ft_strlen(cub->map[i]));
-		i++;
-	}
 }
 
 void	parser(t_cub *cub)
@@ -61,9 +60,7 @@ void	parser(t_cub *cub)
 	int		fd;
 	int		i;
 
-	if ((fd = open(cub->map_file, O_RDONLY)) == -1)
-		g_error = 3;
-	i = 0;
+	fd = open(cub->map_file, O_RDONLY);
 	while ((i = get_next_line(fd, &line)) != 0 && g_error == 0)
 	{
 		if (i == -1)
@@ -72,13 +69,15 @@ void	parser(t_cub *cub)
 			break ;
 		}
 		what_in_line(line, cub);
-		free(line);
+		if (line)
+			free(line);
 	}
+	what_in_line(line, cub);
+	if (line)
+		free(line);
+	close(fd);
 	if (g_error == 0)
 	{
-		what_in_line(line, cub);
-		free(line);
-		close(fd);
 		norm_parser(cub, i);
 		valid_map(cub);
 	}

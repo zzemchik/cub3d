@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 16:51:00 by rnancee           #+#    #+#             */
-/*   Updated: 2021/02/09 19:05:55 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/02/10 19:23:09 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,9 @@ static int				check_argc(char **argc, int argv)
 		return (0);
 	}
 	i = ft_strlen(argc[1]);
-	if (!(argc[1][i - 4] == '.' && argc[1][i - 3] == 'm' && \
-	argc[1][i - 2] == 'a' && argc[1][i - 1] == 'p' && argc[1][i] == 0))
+	if (!(argc[1][i - 4] == '.' && argc[1][i - 3] == 'c' && \
+	argc[1][i - 2] == 'u' && argc[1][i - 1] == 'b' && argc[1][i] == 0) || \
+	(i = open(argc[1], O_RDONLY)) == -1)
 	{
 		write(1, "Error arguments!\n", 17);
 		return (0);

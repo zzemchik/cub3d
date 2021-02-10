@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 14:29:23 by rnancee           #+#    #+#             */
-/*   Updated: 2021/02/09 17:29:18 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/02/10 19:55:57 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,21 @@ static void	dist_a_norm_1(t_cub *cub, t_ray *ray, int min, int *uu)
 {
 	if (*(uu) == 0)
 	{
-		cub->sprite_x[(*uu)] = (int)floor(ray->xx + min * EPS);
-		cub->sprite_y[(*uu)] = (int)floor(ray->yy);
+		cub->sprite_x[*uu] = (int)floor(ray->xx + min * EPS);
+		cub->sprite_y[*uu] = (int)floor(ray->yy);
 		(*uu)++;
 	}
 	else
 	{
 		ray->iter = 1;
 		while ((*uu) - ray->iter >= 0 && \
-		(!(cub->sprite_x[(*uu) - ray->iter] == (int)floor(ray->xx + min * EPS) \
-		&& cub->sprite_y[(*uu) - ray->iter] == (int)floor(ray->yy))))
+		(!(cub->sprite_x[*uu - ray->iter] == (int)floor(ray->xx + min * EPS) \
+		&& cub->sprite_y[*uu - ray->iter] == (int)floor(ray->yy))))
 			ray->iter++;
 		if ((*uu) - ray->iter == -1)
 		{
-			cub->sprite_x[(*uu)] = (int)floor(ray->xx + min * EPS);
-			cub->sprite_y[(*uu)] = (int)floor(ray->yy);
+			cub->sprite_x[*uu] = (int)floor(ray->xx + min * EPS);
+			cub->sprite_y[*uu] = (int)floor(ray->yy);
 			(*uu)++;
 		}
 	}

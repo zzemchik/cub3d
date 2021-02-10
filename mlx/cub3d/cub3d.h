@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 17:30:49 by rnancee           #+#    #+#             */
-/*   Updated: 2021/02/09 19:30:23 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/02/10 20:42:22 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # define D		2
 # define LEFT	123
 # define RIGHT	124
-# define EPS	0.000001
+# define EPS	0.000000001
 
 typedef struct		s_list
 {
