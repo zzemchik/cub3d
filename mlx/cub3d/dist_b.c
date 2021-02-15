@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 14:30:25 by rnancee           #+#    #+#             */
-/*   Updated: 2021/02/09 19:27:32 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/02/12 14:34:49 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,7 @@ int			dist_b(t_cub *cub, t_ray *ray, int *ll)
 		return (1);
 	if (cub->map[(int)floor(ray->yy - EPS)][(int)floor(ray->xx)] == '2')
 		dist_b_norm_1(cub, ray, -1, ll);
-	else if (cub->map[(int)floor(ray->yy + EPS)][(int)floor(ray->xx)] == '2')
-	{
+	if (cub->map[(int)floor(ray->yy + EPS)][(int)floor(ray->xx)] == '2')
 		dist_b_norm_1(cub, ray, 1, ll);
-	}
 	return (0);
 }

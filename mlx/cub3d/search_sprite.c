@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 18:31:43 by rnancee           #+#    #+#             */
-/*   Updated: 2021/02/10 21:09:44 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/02/12 14:15:28 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int point_sprite, double dist_sprite)
 		tx.j = 0;
 		tx.max = cub->height;
 	}
-	while (tx.i <= point_sprite + size && tx.i < cub->width)
+	while (tx.i < point_sprite + size && tx.i < cub->width)
 	{
 		if (tx.i >= 0)
 		{

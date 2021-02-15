@@ -6,54 +6,51 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 16:03:05 by rnancee           #+#    #+#             */
-/*   Updated: 2021/02/10 20:57:54 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/02/12 15:15:04 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static int	sort_dist_sprite_norm(t_cub *cub, int k, double *h, int i)
+static void		sort_dist_sprite_norm(t_cub *cub, int i, double h, int l)
 {
-	int		j;
-	int		l;
-
-	j = i;
-	l = 0;
-	*h = cub->dist_sprite[i];
-	while (j++ < k)
-		if (*h > cub->dist_sprite[j])
-		{
-			*h = cub->dist_sprite[j];
-			l = j;
-		}
-	return (l);
+	cub->dist_sprite[l] = cub->dist_sprite[i];
+	cub->dist_sprite[i] = h;
+	h = cub->sprite_x[i];
+	cub->sprite_x[i] = cub->sprite_x[l];
+	cub->sprite_x[l] = h;
+	h = cub->sprite_y[i];
+	cub->sprite_y[i] = cub->sprite_y[l];
+	cub->sprite_y[l] = h;
 }
 
-static void	sort_dist_sprite(t_cub *cub, int k)
+static void		sort_dist_sprite(t_cub *cub, int k)
 {
 	int		i;
+	int		j;
 	double	h;
 	int		l;
 
+	j = 0;
 	i = -1;
-	while (i++ < k)
+	while (++i < k)
 	{
-		l = sort_dist_sprite_norm(cub, k, &h, i);
-		if (h != cub->dist_sprite[i])
+		h = cub->dist_sprite[i];
+		j = i;
+		while (++j < k)
 		{
-			cub->dist_sprite[l] = cub->dist_sprite[i];
-			cub->dist_sprite[i] = h;
-			h = cub->sprite_x[i];
-			cub->sprite_x[i] = cub->sprite_x[l];
-			cub->sprite_x[l] = h;
-			h = cub->sprite_y[i];
-			cub->sprite_y[i] = cub->sprite_y[l];
-			cub->sprite_y[l] = h;
+			if (h > cub->dist_sprite[j])
+			{
+				h = cub->dist_sprite[j];
+				l = j;
+			}
 		}
+		if (h != cub->dist_sprite[i])
+			sort_dist_sprite_norm(cub, i, h, l);
 	}
 }
 
-void		drow_sprite(t_cub *cub, int k)
+void			drow_sprite(t_cub *cub, int k)
 {
 	int		u;
 	double	w_sprite;
@@ -74,7 +71,8 @@ void		drow_sprite(t_cub *cub, int k)
 		cub->sprite_x[k] - cub->x + 0.5) - cub->direction;
 		dir_sprite = valid_pi(dir_sprite);
 		size = w_sprite / (cos(dir_sprite) * cub->dist_sprite[k]);
-		point_sprite = (double)cub->width / 2 + tan(dir_sprite) * w_sprite - (double)size / 2;
+		point_sprite = (double)cub->width / 2 + \
+		tan(dir_sprite) * w_sprite - (double)size / 2;
 		if (size <= 0 || point_sprite >= cub->width)
 			continue ;
 		drow_sprite_tx(cub, size, point_sprite, cub->dist_sprite[k]);

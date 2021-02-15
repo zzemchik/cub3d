@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 16:57:17 by rnancee           #+#    #+#             */
-/*   Updated: 2021/02/10 19:52:50 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/02/12 15:12:03 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	all_null(t_cub *cub)
 	cub->ea.name_texture = NULL;
 	cub->sp.name_texture = NULL;
 	cub->lst = NULL;
-	cub->height = 0;
-	cub->width = 0;
+	cub->height = -1;
+	cub->width = -1;
 	cub->ceil.r = -1;
 	cub->ceil.b = -1;
 	cub->ceil.g = -1;

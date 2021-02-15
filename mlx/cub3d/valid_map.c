@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 17:10:06 by rnancee           #+#    #+#             */
-/*   Updated: 2021/02/09 19:08:11 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/02/12 13:58:38 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static int			norm_valid_map_1(t_cub *cub, int i, int j)
 	return (k);
 }
 
-static int		norm_valid_map(int i, int j, t_cub *cub)
+static int			norm_valid_map(int i, int j, t_cub *cub)
 {
 	int k;
 	int m;
@@ -98,7 +98,7 @@ static int		norm_valid_map(int i, int j, t_cub *cub)
 	return (m);
 }
 
-void			valid_map(t_cub *cub)
+void				valid_map(t_cub *cub)
 {
 	int i;
 	int j;

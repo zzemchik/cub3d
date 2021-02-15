@@ -6,7 +6,7 @@
 /*   By: rnancee <rnancee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 16:58:04 by rnancee           #+#    #+#             */
-/*   Updated: 2021/02/10 20:57:16 by rnancee          ###   ########.fr       */
+/*   Updated: 2021/02/12 14:40:36 by rnancee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ void		movement_norm_1(t_cub *cub)
 void		movement_norm_2(t_cub *cub)
 {
 	if (cub->keys.left)
-		cub->direction -= 0.05;
+		cub->direction -= 0.07;
 	if (cub->keys.right)
-		cub->direction += 0.05;
+		cub->direction += 0.07;
 }
 
 void		movement(t_cub *cub)
@@ -70,8 +70,8 @@ void		movement(t_cub *cub)
 	}
 	movement_norm_1(cub);
 	movement_norm_2(cub);
-	cub->cos = cos(valid_pi(cub->direction)) * 0.1;
-	cub->sin = sin(valid_pi(cub->direction)) * 0.1;
+	cub->cos = cos(cub->direction) * 0.1;
+	cub->sin = sin(cub->direction) * 0.1;
 }
 
 int			key_release(int key, t_cub *cub)
