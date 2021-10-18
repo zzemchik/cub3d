@@ -1,6 +1,6 @@
 # Cub3D
 
-This project - engine game, like DOOM or Wolfenstein 3D. Worked for mac ios.
+This project - engine game, like DOOM or Wolfenstein 3D. Worked for mac.
 
 ## How to work
 
